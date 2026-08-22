@@ -1,0 +1,82 @@
+export const shortTrips = [
+  {
+    id: "st-del- Agra",
+    from: "Delhi",
+    to: "Agra",
+    title: "Taj Heritage Day Tour",
+    distance: 230, // in km
+    duration: "1 Day (14 hours)",
+    price: 1500, // per person
+    category: "Heritage",
+    image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80",
+    highlights: ["Sunrise at Taj Mahal", "Guided tour of Agra Fort", "Fatehpur Sikri excursion", "Traditional Mughlai lunch included"],
+    difficulty: "Easy",
+    bestFor: "Families & Couples wanting a quick historical getaway without overnight stay.",
+    ratings: 4.8,
+    isSeniorFriendly: true
+  },
+  {
+    id: "st-del-rsh",
+    from: "Delhi",
+    to: "Rishikesh",
+    title: "Ganga Aarti & Yoga Weekend",
+    distance: 250,
+    duration: "2 Days / 1 Night",
+    price: 3200,
+    category: "Spiritual",
+    image: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80",
+    highlights: ["Evening Triveni Ghat Aarti", "Morning riverside meditation session", "Organic meals", "Short jungle waterfall trek"],
+    difficulty: "Easy",
+    bestFor: "Peace seekers, yogis, and families looking for mental rejuvenation.",
+    ratings: 4.9,
+    isSeniorFriendly: true
+  },
+  {
+    id: "st-del-mus",
+    from: "Dehradun",
+    to: "Mussoorie",
+    title: "Queen of Hills Escape",
+    distance: 35,
+    duration: "1 Day (8 hours)",
+    price: 1200,
+    category: "Nature",
+    image: "https://images.unsplash.com/photo-1626696701891-cc91855e09e1?auto=format&fit=crop&w=800&q=80",
+    highlights: ["Walk on Mall Road", "Lal Tibba viewpoints", "Kempty Falls trip", "Cable car ride to Gun Hill"],
+    difficulty: "Easy",
+    bestFor: "Nature lovers, students, and family groups looking for cool weather.",
+    ratings: 4.6,
+    isSeniorFriendly: true
+  },
+  {
+    id: "st-del-lan",
+    from: "Delhi",
+    to: "Lansdowne",
+    title: "Quiet Pines Wilderness Stay",
+    distance: 260,
+    duration: "3 Days / 2 Nights",
+    price: 4800,
+    category: "Nature",
+    image: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    highlights: ["Pine forest hiking", "Boating at Bhulla Lake", "Tip-in-Top sunrise viewing", "St. John's Church heritage exploration"],
+    difficulty: "Moderate",
+    bestFor: "Adventure seekers, photographers, and friend groups looking for quiet landscapes.",
+    ratings: 4.5,
+    isSeniorFriendly: false
+  },
+  {
+    id: "st-jpr-push",
+    from: "Jaipur",
+    to: "Pushkar",
+    title: "Sacred Lake & Desert Culture",
+    distance: 145,
+    duration: "2 Days / 1 Night",
+    price: 2600,
+    category: "Culture",
+    image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+    highlights: ["Pushkar Lake ghats walk", "Brahma Temple visit", "Sunset desert camel safari", "Folk dance & music dinner"],
+    difficulty: "Easy",
+    bestFor: "Cultural enthusiasts, foreign travelers, and senior citizens.",
+    ratings: 4.7,
+    isSeniorFriendly: true
+  }
+];

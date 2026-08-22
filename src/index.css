@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-orange: #FF6B35;
+  --color-brand-teal: #0F766E;
+  --color-brand-gold: #F4B942;
+  --color-brand-ivory: #FFFDF8;
+  --color-brand-forest: #102A2A;
+  --color-brand-mint: #F1F7F5;
+  --color-brand-green: #2E8B57;
+  
+  --font-sans: "Outfit", "Inter", sans-serif;
+  
+  --shadow-premium: 0 10px 30px -10px rgba(16, 42, 42, 0.08);
+  --shadow-premium-hover: 0 20px 40px -15px rgba(16, 42, 42, 0.15);
+  --shadow-glass: 0 8px 32px 0 rgba(15, 118, 110, 0.08);
+}
+
+@utility glass-effect {
+  background: rgba(255, 253, 248, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 118, 110, 0.08);
+}
+
+@utility glass-dark-effect {
+  background: rgba(16, 42, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  body {
+    @apply bg-brand-ivory text-brand-forest antialiased selection:bg-brand-orange selection:text-white font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-sans text-brand-forest font-bold;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFFDF8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0F766E;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF6B35;
+}
+
+/* Animated Route Line drawing */
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-route {
+  stroke-dasharray: 8 4;
+  stroke-dashoffset: 120;
+  animation: drawPath 5s linear infinite;
+}
+
+.animate-route-solid {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawPath 3s ease-out forwards;
+}
+
+/* Hide default scrollbar for clean carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,0 +1,80 @@
+export const localExperiences = [
+  {
+    id: "le-ddn-bakery",
+    destinationId: "dehradun",
+    name: "Ellora's Melting Moments",
+    location: "Rajpur Road, Dehradun",
+    category: "Cafés",
+    priceRange: "₹200 - ₹500",
+    rating: 4.6,
+    isOpen: true,
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+    description: "Famous local bakery renowned for its Stick Jaws, Butter Toffees, Plum Cakes, and fresh rusks since 1953.",
+    highlights: ["Must Try: Stick Jaws", "Iconic local heritage bakery", "Family friendly seating"]
+  },
+  {
+    id: "le-ddn-cave",
+    destinationId: "dehradun",
+    name: "Robber's Cave (Guchhupani) Walk",
+    location: "Vijaypur, Dehradun",
+    category: "Local Experiences",
+    priceRange: "₹35 (Entry Fee)",
+    rating: 4.5,
+    isOpen: true,
+    image: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+    description: "A natural river cave formation where water flows inside a dark limestone canyon. Walk knee-deep in cold water.",
+    highlights: ["Knee-deep water walking", "Natural cave tunnels", "Maggi stalls inside"]
+  },
+  {
+    id: "le-rsh-choti",
+    destinationId: "rishikesh",
+    name: "Chotiwala Restaurant",
+    location: "Swargashram, Rishikesh",
+    category: "Food",
+    priceRange: "₹150 - ₹350",
+    rating: 4.4,
+    isOpen: true,
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+    description: "An iconic landmark eatery serving pure satvik North & South Indian thalis since 1958. Famously guarded by the 'Chotiwala' mascot.",
+    highlights: ["Satvik North Indian Thali", "Historic local brand", "Right near the Ganga bank"]
+  },
+  {
+    id: "le-rsh-raft",
+    destinationId: "rishikesh",
+    name: "Shivpuri River Rafting Co-op",
+    location: "Shivpuri, Rishikesh",
+    category: "Local Experiences",
+    priceRange: "₹600 - ₹1200",
+    rating: 4.8,
+    isOpen: true,
+    image: "https://images.unsplash.com/photo-1530866495561-507c9faab2ed?auto=format&fit=crop&w=800&q=80",
+    description: "Locally managed rafting cooperative supporting native guides. Offers 12km to 26km white water rafting with safety gear.",
+    highlights: ["Certified local guides", "Support local adventure economy", "Safety equipment included"]
+  },
+  {
+    id: "le-jpr-bazaar",
+    destinationId: "jaipur",
+    name: "Johari Bazar Jewelers & Textiles",
+    location: "Old City, Jaipur",
+    category: "Shopping",
+    priceRange: "Flexible",
+    rating: 4.7,
+    isOpen: true,
+    image: "https://images.unsplash.com/photo-1601567339396-857e4e112dcf?auto=format&fit=crop&w=800&q=80",
+    description: "Historic marketplace known for handmade silver jewelry, bandhani sarees, and traditional block print textiles.",
+    highlights: ["Authentic block prints", "Local artisan stalls", "Bargaining friendly"]
+  },
+  {
+    id: "le-vns-aarti",
+    destinationId: "varanasi",
+    name: "Subah-e-Banaras Cultural Show",
+    location: "Assi Ghat, Varanasi",
+    category: "Culture",
+    priceRange: "Free",
+    rating: 4.9,
+    isOpen: true,
+    image: "https://images.unsplash.com/photo-1561361062-6522c0e9e455?auto=format&fit=crop&w=800&q=80",
+    description: "Early morning ritual starting with Vedic chanting, classical music performance by local gharana disciples, and yoga on the ghat.",
+    highlights: ["Sunrise Ganga views", "Local classical musicians", "Vedic yoga session"]
+  }
+];
