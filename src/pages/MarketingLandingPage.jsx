@@ -223,14 +223,14 @@ export const MarketingLandingPage = () => {
             <button onClick={() => handleScroll('plans')} className="px-4 py-1.5 text-xs font-semibold tracking-wide text-white/90 hover:text-brand-gold transition-colors cursor-pointer">My Trips</button>
           </nav>
 
-          {/* Right: Passenger ID / Sign In Button */}
+          {/* Right: Register / Sign In Button */}
           <div>
             <Link 
               to="/login"
               className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs tracking-wider uppercase transition-all shadow-md"
             >
               <Lock className="w-3.5 h-3.5 text-brand-gold" />
-              <span>Passenger ID / Sign In</span>
+              <span>Register / Sign In</span>
             </Link>
           </div>
         </div>

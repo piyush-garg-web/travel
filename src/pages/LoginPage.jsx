@@ -2,29 +2,92 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { mockUsersList } from '../data/users';
-import { User, Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, ShieldCheck, Phone, MapPin } from 'lucide-react';
 
 export const LoginPage = () => {
   const { setUser, addToast } = useTravel();
   const navigate = useNavigate();
 
+  const [isRegister, setIsRegister] = useState(false);
   const [selectedUserIndex, setSelectedUserIndex] = useState(0);
-  const [email, setEmail] = useState(mockUsersList[0].email);
+  const [username, setUsername] = useState(mockUsersList[0].name);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('••••••••••••');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
 
   const handleUserSelect = (index) => {
     setSelectedUserIndex(index);
-    setEmail(mockUsersList[index].email);
+    setUsername(mockUsersList[index].name);
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const userToLogin = mockUsersList[selectedUserIndex];
+    if (!username.trim()) {
+      addToast("Please enter a username.", "error");
+      return;
+    }
+
+    const foundUser = mockUsersList.find(
+      u => u.name.toLowerCase() === username.trim().toLowerCase()
+    );
+
+    const userToLogin = foundUser || mockUsersList[selectedUserIndex] || mockUsersList[0];
     
-    // Set the user in global travel context
-    setUser(userToLogin);
+    setUser({
+      ...userToLogin,
+      name: foundUser ? foundUser.name : username.trim()
+    });
     
-    addToast(`Welcome back, ${userToLogin.name}! Accessing your travel dashboard...`, 'success');
+    addToast(`Welcome back, ${foundUser ? foundUser.name : username.trim()}! Accessing your travel dashboard...`, 'success');
+    navigate('/explore');
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    if (!username.trim() || !email.trim() || !password.trim() || !phone.trim() || !location.trim()) {
+      addToast("Please fill in all registration fields.", "error");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      addToast("Please enter a valid email address.", "error");
+      return;
+    }
+
+    const newUser = {
+      id: `user-${Date.now()}`,
+      name: username.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      location: location.trim(),
+      age: 28,
+      ageGroup: "Adult (18-59)",
+      passengerId: `EZY-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+      emergencyContact: {
+        name: "Emergency Contact",
+        relation: "Relative",
+        phone: ""
+      },
+      accessibilityPreferences: {
+        prefersSeniorFriendly: false,
+        lessWalking: false,
+        accessibleTransport: false,
+        dietaryRestriction: "None"
+      },
+      travelPreferences: {
+        budget: "Moderate",
+        interests: ["Adventure", "Culture"],
+        style: "Standard",
+        defaultSource: location.trim()
+      },
+      savedStays: [],
+      savedExperiences: []
+    };
+
+    setUser(newUser);
+    addToast(`Registration successful! Welcome, ${newUser.name}!`, "success");
     navigate('/explore');
   };
 
@@ -72,83 +135,230 @@ export const LoginPage = () => {
         {/* Login Form Container (Glass card) */}
         <div className="bg-[#1D1614]/65 border border-brand-gold/20 backdrop-blur-md rounded-3xl p-8 shadow-2xl flex flex-col gap-6">
           <div className="text-center">
-            <h2 className="text-xl font-bold text-white tracking-wide">Sign In to Your Account</h2>
-            <p className="text-xs text-white/50 mt-1.5">Select a mock user profile to explore personalized travel planners.</p>
+            <h2 className="text-xl font-bold text-white tracking-wide">
+              {isRegister ? "Create Your Account" : "Sign In to Your Account"}
+            </h2>
+            <p className="text-xs text-white/50 mt-1.5">
+              {isRegister 
+                ? "Register to customize your Smart India travel itineraries." 
+                : "Select a mock user profile to explore personalized travel planners."}
+            </p>
           </div>
 
-          {/* Mock User Selector Cards */}
-          <div className="flex flex-col gap-2.5">
-            <span className="text-[10px] font-bold text-brand-gold uppercase tracking-wider text-left">Select Travel Profile</span>
-            <div className="grid grid-cols-2 gap-3">
-              {mockUsersList.map((mockUser, index) => (
-                <button
-                  key={mockUser.id}
-                  type="button"
-                  onClick={() => handleUserSelect(index)}
-                  className={`p-3.5 rounded-xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${
-                    selectedUserIndex === index
-                      ? 'bg-brand-orange/15 border-brand-orange text-white shadow-lg'
-                      : 'bg-white/5 border-white/5 text-white/70 hover:bg-white/10'
-                  }`}
-                >
-                  <span className="text-xs font-bold">{mockUser.name}</span>
-                  <span className="text-[10px] text-white/40">{mockUser.ageGroup}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
-            {/* Email Field */}
-            <div className="flex flex-col gap-1.5 text-left">
-              <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Email Address</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
-                  <Mail className="w-4 h-4" />
-                </span>
-                <input
-                  type="email"
-                  value={email}
-                  readOnly
-                  className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange cursor-not-allowed opacity-80"
-                />
-              </div>
-            </div>
-
-            {/* Password Field */}
-            <div className="flex flex-col gap-1.5 text-left">
-              <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Password</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
-                  <Lock className="w-4 h-4" />
-                </span>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
-                />
-              </div>
-            </div>
-
-            {/* Remember Me & Forgot Password (Mock) */}
-            <div className="flex items-center justify-between text-[11px] text-white/50 mt-1">
-              <label className="flex items-center gap-1.5 cursor-pointer">
-                <input type="checkbox" defaultChecked className="rounded border-white/10 accent-brand-orange bg-transparent w-3.5 h-3.5" />
-                <span>Remember me</span>
-              </label>
-              <a href="#" onClick={(e) => { e.preventDefault(); addToast("Password reset disabled in demo mode.", "info"); }} className="hover:text-brand-gold transition-colors font-medium">Forgot Password?</a>
-            </div>
-
-            {/* Submit Button */}
+          {/* Mode Selector Tab Toggle */}
+          <div className="flex border-b border-white/10 pb-2">
             <button
-              type="submit"
-              className="mt-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-gold hover:brightness-110 text-white font-bold text-sm tracking-wide shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 group transition-all cursor-pointer"
+              type="button"
+              onClick={() => {
+                setIsRegister(false);
+                setUsername(mockUsersList[selectedUserIndex].name);
+              }}
+              className={`flex-1 pb-2 text-sm font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                !isRegister 
+                  ? 'text-brand-gold border-b-2 border-brand-orange' 
+                  : 'text-white/45 hover:text-white/70'
+              }`}
             >
-              <span>Sign In</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Sign In
             </button>
-          </form>
+            <button
+              type="button"
+              onClick={() => {
+                setIsRegister(true);
+                setUsername('');
+              }}
+              className={`flex-1 pb-2 text-sm font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                isRegister 
+                  ? 'text-brand-gold border-b-2 border-brand-orange' 
+                  : 'text-white/45 hover:text-white/70'
+              }`}
+            >
+              Register
+            </button>
+          </div>
+
+          {!isRegister ? (
+            <>
+              {/* Mock User Selector Cards */}
+              <div className="flex flex-col gap-2.5">
+                <span className="text-[10px] font-bold text-brand-gold uppercase tracking-wider text-left">Select Travel Profile</span>
+                <div className="grid grid-cols-2 gap-3">
+                  {mockUsersList.map((mockUser, index) => (
+                    <button
+                      key={mockUser.id}
+                      type="button"
+                      onClick={() => handleUserSelect(index)}
+                      className={`p-3.5 rounded-xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${
+                        selectedUserIndex === index
+                          ? 'bg-brand-orange/15 border-brand-orange text-white shadow-lg'
+                          : 'bg-white/5 border-white/5 text-white/70 hover:bg-white/10'
+                      }`}
+                    >
+                      <span className="text-xs font-bold">{mockUser.name}</span>
+                      <span className="text-[10px] text-white/40">{mockUser.ageGroup}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
+                {/* Username Field */}
+                <div className="flex flex-col gap-1.5 text-left">
+                  <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Username</label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                      <User className="w-4 h-4" />
+                    </span>
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Enter your username"
+                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Password Field */}
+                <div className="flex flex-col gap-1.5 text-left">
+                  <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Password</label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                      <Lock className="w-4 h-4" />
+                    </span>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Remember Me & Forgot Password (Mock) */}
+                <div className="flex items-center justify-between text-[11px] text-white/50 mt-1">
+                  <label className="flex items-center gap-1.5 cursor-pointer">
+                    <input type="checkbox" defaultChecked className="rounded border-white/10 accent-brand-orange bg-transparent w-3.5 h-3.5" />
+                    <span>Remember me</span>
+                  </label>
+                  <a href="#" onClick={(e) => { e.preventDefault(); addToast("Password reset disabled in demo mode.", "info"); }} className="hover:text-brand-gold transition-colors font-medium">Forgot Password?</a>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="mt-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-gold hover:brightness-110 text-white font-bold text-sm tracking-wide shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 group transition-all cursor-pointer"
+                >
+                  <span>Sign In</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+            </>
+          ) : (
+            <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-4">
+              {/* Username Field */}
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Username</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                    <User className="w-4 h-4" />
+                  </span>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Choose a username"
+                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Email Field */}
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Email Address</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                    <Mail className="w-4 h-4" />
+                  </span>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Password Field */}
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Password</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                    <Lock className="w-4 h-4" />
+                  </span>
+                  <input
+                    type="password"
+                    value={password === '••••••••••••' ? '' : password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Choose a password"
+                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Phone Field */}
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Phone Number</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                    <Phone className="w-4 h-4" />
+                  </span>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter your phone number"
+                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Location Field */}
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Location</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                    <MapPin className="w-4 h-4" />
+                  </span>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="Enter your location (e.g. Delhi)"
+                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="mt-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-gold hover:brightness-110 text-white font-bold text-sm tracking-wide shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 group transition-all cursor-pointer"
+              >
+                <span>Register</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </form>
+          )}
 
           {/* Secure Badge */}
           <div className="flex items-center justify-center gap-1.5 text-[10px] text-white/40 border-t border-white/5 pt-4">
