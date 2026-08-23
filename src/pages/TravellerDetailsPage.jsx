@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, BadgeCheck, CheckCircle2, Users, X } from 'lucide-react';
+import digilockerLogo from '../assets/digilocker-logo.png';
 import { useTravel } from '../context/TravelContext';
 
 const createTravellers = (count) => Array.from({ length: count || 1 }, (_, index) => ({
@@ -145,30 +146,7 @@ export const TravellerDetailsPage = () => {
           <div className="relative w-full max-w-sm rounded-3xl bg-white p-7 text-center shadow-2xl">
             <button type="button" onClick={() => setShowDigiLockerModal(false)} className="absolute top-4 right-4 text-brand-muted hover:text-brand-forest" aria-label="Close DigiLocker verification"><X className="w-5 h-5" /></button>
             <div className="w-28 h-28 mx-auto rounded-3xl bg-white shadow-lg flex items-center justify-center p-3">
-              <svg viewBox="0 0 200 200" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Purple document / page shape */}
-                <rect x="30" y="20" width="110" height="140" rx="12" fill="url(#docGrad)" />
-                {/* Folded corner */}
-                <path d="M110 20 L140 50 L110 50 Z" fill="#5B50D6" />
-                <path d="M110 20 L140 50 L110 20 Z" fill="#7C6CE0" opacity="0.7" />
-                {/* White cloud overlay */}
-                <path d="M60 135 C40 135 28 122 28 108 C28 95 38 85 55 83 C56 72 65 62 80 60 C98 57 115 68 120 82 C135 80 150 88 152 102 C154 116 144 128 130 132 C128 135 80 138 60 135 Z" fill="white" stroke="white" strokeWidth="2" />
-                {/* Keyhole circle */}
-                <circle cx="90" cy="100" r="10" fill="url(#keyGrad)" />
-                {/* Keyhole notch */}
-                <rect x="86" y="98" width="8" height="16" rx="4" fill="url(#keyGrad)" />
-                <defs>
-                  <linearGradient id="docGrad" x1="30" y1="20" x2="140" y2="160" gradientUnits="userSpaceOnUse">
-                    <stop offset="0" stopColor="#5046E5" />
-                    <stop offset="0.5" stopColor="#5B4FE8" />
-                    <stop offset="1" stopColor="#6D5CF7" />
-                  </linearGradient>
-                  <linearGradient id="keyGrad" x1="80" y1="90" x2="100" y2="118" gradientUnits="userSpaceOnUse">
-                    <stop offset="0" stopColor="#6366F1" />
-                    <stop offset="1" stopColor="#4F46E5" />
-                  </linearGradient>
-                </defs>
-              </svg>
+              <img src={digilockerLogo} alt="DigiLocker logo" className="w-full h-full object-contain" />
             </div>
             <div className="mt-5">
               <p className="text-2xl font-black tracking-tight text-[#4338CA]">DigiLocker</p>
