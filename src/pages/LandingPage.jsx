@@ -59,11 +59,11 @@ export const LandingPage = () => {
 
         {/* Absolute Background Image representing Indian Landscapes */}
         <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-35"
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-50"
           style={{ backgroundImage: `url(${varanasiGangesBg})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-ivory via-brand-ivory/30 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-cream/50 via-transparent to-brand-soft-orange/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-ivory/75 via-brand-ivory/15 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-cream/30 via-transparent to-brand-soft-orange/15"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
