@@ -7,11 +7,19 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "nodemon server/server.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run server\""
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "framer-motion": "^13.1.1",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.33.0",
+    "mongoose": "^9.9.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2",
@@ -23,9 +31,24 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
     "autoprefixer": "^10.5.4",
+    "concurrently": "^10.0.5",
+    "nodemon": "^3.1.14",
     "oxlint": "^1.75.0",
     "postcss": "^8.5.26",
     "tailwindcss": "^4.3.3",
     "vite": "^8.2.0"
-  }
+  },
+  "description": "EzYatra is an intelligent Indian travel and tourism platform prototype that aggregates transport, accommodations, local travel, tourist attractions, short weekend escapes, and spiritual Yatra planning into a single, unified travel-planning experience.",
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piyush-garg-web/travel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piyush-garg-web/travel/issues"
+  },
+  "homepage": "https://github.com/piyush-garg-web/travel#readme"
 }

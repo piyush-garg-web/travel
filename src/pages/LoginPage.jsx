@@ -3,9 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { mockUsersList } from '../data/users';
 import { User, Mail, Lock, ArrowRight, ShieldCheck, Phone, MapPin } from 'lucide-react';
+import { authService } from '../services/authService';
 
 export const LoginPage = () => {
-  const { setUser, addToast } = useTravel();
+  const { setUser, setAuthToken, addToast } = useTravel();
   const navigate = useNavigate();
 
   const [isRegister, setIsRegister] = useState(false);
@@ -21,29 +22,32 @@ export const LoginPage = () => {
     setUsername(mockUsersList[index].name);
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     if (!username.trim()) {
       addToast("Please enter a username.", "error");
       return;
     }
 
-    const foundUser = mockUsersList.find(
-      u => u.name.toLowerCase() === username.trim().toLowerCase()
-    );
-
-    const userToLogin = foundUser || mockUsersList[selectedUserIndex] || mockUsersList[0];
-    
-    setUser({
-      ...userToLogin,
-      name: foundUser ? foundUser.name : username.trim()
-    });
-    
-    addToast(`Welcome back, ${foundUser ? foundUser.name : username.trim()}! Accessing your travel dashboard...`, 'success');
-    navigate('/explore');
+    try {
+      const data = await authService.signin(username.trim(), password);
+      
+      // Save credentials to localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      // Set user and token in context
+      setUser(data.user);
+      setAuthToken(data.token);
+      
+      addToast(`Welcome back, ${data.user.name}! Accessing your travel dashboard...`, 'success');
+      navigate('/explore');
+    } catch (err) {
+      addToast(err.message || "Invalid credentials.", "error");
+    }
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     if (!username.trim() || !email.trim() || !password.trim() || !phone.trim() || !location.trim()) {
       addToast("Please fill in all registration fields.", "error");
@@ -56,39 +60,28 @@ export const LoginPage = () => {
       return;
     }
 
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name: username.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      location: location.trim(),
-      age: 28,
-      ageGroup: "Adult (18-59)",
-      passengerId: `EZY-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
-      emergencyContact: {
-        name: "Emergency Contact",
-        relation: "Relative",
-        phone: ""
-      },
-      accessibilityPreferences: {
-        prefersSeniorFriendly: false,
-        lessWalking: false,
-        accessibleTransport: false,
-        dietaryRestriction: "None"
-      },
-      travelPreferences: {
-        budget: "Moderate",
-        interests: ["Adventure", "Culture"],
-        style: "Standard",
-        defaultSource: location.trim()
-      },
-      savedStays: [],
-      savedExperiences: []
-    };
+    try {
+      const data = await authService.register({
+        username: username.trim(),
+        email: email.trim(),
+        password,
+        phone: phone.trim(),
+        location: location.trim()
+      });
 
-    setUser(newUser);
-    addToast(`Registration successful! Welcome, ${newUser.name}!`, "success");
-    navigate('/explore');
+      // Save credentials to localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Set user and token in context
+      setUser(data.user);
+      setAuthToken(data.token);
+
+      addToast(`Registration successful! Welcome, ${data.user.name}!`, "success");
+      navigate('/explore');
+    } catch (err) {
+      addToast(err.message || "Registration failed.", "error");
+    }
   };
 
   return (

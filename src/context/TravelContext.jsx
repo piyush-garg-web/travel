@@ -8,10 +8,49 @@ import { hotels } from '../data/hotels';
 const TravelContext = createContext(null);
 
 export const TravelProvider = ({ children }) => {
-  const [user, setUser] = useState(defaultUser);
+  const [authToken, setAuthToken] = useState(() => {
+    return localStorage.getItem('token') || null;
+  });
+
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+    if (!token || !savedUser) {
+      return null;
+    }
+    try {
+      return JSON.parse(savedUser);
+    } catch (err) {
+      console.error("Failed to parse user from localStorage", err);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      return null;
+    }
+  });
+
   const [trips, setTrips] = useState(initialTrips);
-  const [savedStays, setSavedStays] = useState(defaultUser.savedStays || []);
-  const [savedExperiences, setSavedExperiences] = useState(defaultUser.savedExperiences || []);
+  const [savedStays, setSavedStays] = useState(user?.savedStays || []);
+  const [savedExperiences, setSavedExperiences] = useState(user?.savedExperiences || []);
+
+  // Sync token and user logic
+  useEffect(() => {
+    if (!authToken || !user) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      if (authToken) setAuthToken(null);
+      if (user) setUser(null);
+    }
+  }, [authToken, user]);
+
+  useEffect(() => {
+    if (user) {
+      setSavedStays(user.savedStays || []);
+      setSavedExperiences(user.savedExperiences || []);
+    } else {
+      setSavedStays([]);
+      setSavedExperiences([]);
+    }
+  }, [user]);
   
   // Planner State
   const [planner, setPlanner] = useState({
@@ -238,11 +277,25 @@ export const TravelProvider = ({ children }) => {
     return newTrip.id;
   };
 
+  const isLoggedIn = user !== null && authToken !== null;
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+    setAuthToken(null);
+    addToast("Logged out successfully.", "info");
+  };
+
   return (
     <TravelContext.Provider
       value={{
         user,
         setUser,
+        authToken,
+        setAuthToken,
+        isLoggedIn,
+        logout,
         trips,
         setTrips,
         savedStays,

@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export const Navbar = () => {
-  const { savedStays, savedExperiences, triggerSOS, sosActive, cancelSOS } = useTravel();
+  const { savedStays, savedExperiences, triggerSOS, sosActive, cancelSOS, user, isLoggedIn, logout } = useTravel();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,6 +36,11 @@ export const Navbar = () => {
       setGlobalSearchOpen(false);
       setSearchQuery('');
     }
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+    navigate('/');
   };
 
   const navItems = [
@@ -137,14 +142,32 @@ export const Navbar = () => {
               <span className="hidden lg:inline">My Trips</span>
             </Link>
 
-            {/* Profile */}
-            <Link 
-              to="/profile" 
-              className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all flex items-center gap-1.5 border border-brand-teal/10 bg-brand-teal/5"
-            >
-              <User className="w-5 h-5" />
-              <span className="hidden sm:inline font-semibold text-sm">Profile</span>
-            </Link>
+            {/* Profile / Logout */}
+            {isLoggedIn ? (
+              <div className="flex items-center gap-2">
+                <Link 
+                  to="/profile" 
+                  className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all flex items-center gap-1.5 border border-brand-teal/10 bg-brand-teal/5"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="hidden sm:inline font-semibold text-sm">{user?.name || 'Profile'}</span>
+                </Link>
+                <button
+                  onClick={handleLogoutClick}
+                  className="p-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm cursor-pointer transition-all border border-red-105 flex items-center gap-1"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link 
+                to="/login" 
+                className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all flex items-center gap-1.5 border border-brand-teal/10 bg-brand-teal/5"
+              >
+                <User className="w-5 h-5" />
+                <span className="hidden sm:inline font-semibold text-sm">Sign In</span>
+              </Link>
+            )}
 
             {/* Desktop / Tablet Mobile Menu Toggle */}
             <button
@@ -210,6 +233,38 @@ export const Navbar = () => {
               <AlertCircle className="w-5 h-5 text-brand-teal" />
               Digital Passenger ID
             </Link>
+            <div className="h-px bg-brand-teal/10 my-2"></div>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+                >
+                  <User className="w-5 h-5 text-brand-teal" />
+                  Profile ({user?.name || ''})
+                </Link>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogoutClick();
+                  }}
+                  className="w-full text-left px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-red-600 flex items-center gap-3 cursor-pointer"
+                >
+                  <User className="w-5 h-5 text-red-600" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+              >
+                <User className="w-5 h-5 text-brand-teal" />
+                Sign In
+              </Link>
+            )}
           </div>
         )}
       </header>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTravel } from '../context/TravelContext';
+import { Link } from 'react-router-dom';
 import { 
   ShieldAlert, 
   Download, 
@@ -15,6 +16,26 @@ import {
 
 export const PassengerIdPage = () => {
   const { user, addToast } = useTravel();
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-brand-ivory flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        <div className="max-w-md w-full bg-white border border-brand-teal/15 rounded-3xl p-8 text-center shadow-lg">
+          <span className="text-5xl mb-4 block">🔒</span>
+          <h2 className="text-2xl font-black text-slate-800 mb-2">Access Denied</h2>
+          <p className="text-slate-600 text-sm mb-6">
+            Please register or sign in to access your digital passenger ID.
+          </p>
+          <Link 
+            to="/login" 
+            className="px-6 py-3 rounded-xl bg-brand-teal hover:bg-brand-forest text-white font-bold transition-all block cursor-pointer"
+          >
+            Sign In Now
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleDownload = () => {
     addToast("💾 Smart ID downloaded to device storage as JAN-PASS.pkpass", "success");
