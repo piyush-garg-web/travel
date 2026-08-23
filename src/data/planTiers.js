@@ -2,19 +2,19 @@ export const planTiers = [
   {
     id: 'Affordable',
     title: 'Affordable',
-    description: 'Budget-friendly travel',
+    description: 'Budget-friendly community travel',
     icon: '💰',
     color: 'green',
     accent: 'text-emerald-700',
     bg: 'bg-emerald-50',
     border: 'border-emerald-200',
     transport: {
-      toStation: 'City Bus, Metro',
-      intercity: 'Regular Train, Non-AC Bus',
+      toStation: 'State Bus, Shared Auto',
+      intercity: 'Sleeper Train, State Express Bus',
       local: 'Local Bus, Walking'
     },
-    accommodation: 'Dharamshala, Youth Hostels',
-    attractions: 'Free Museums, Public Parks',
+    accommodation: 'Clean Dharamshala, Yatri Niwas, Homestay',
+    attractions: 'Self-guided free & low-cost visits',
     features: {
       support: true,
       insurance: false,
@@ -25,28 +25,28 @@ export const planTiers = [
     },
     benefits: [
       'Lowest cost option',
-      'Public transport focus',
-      'Budget-friendly stays',
-      'Free & low-cost attractions'
+      'State bus or sleeper train',
+      'Dharamshala and homestay stays',
+      'Community meals and self-guided visits'
     ],
-    multiplier: 0.75
+    referenceTotal: 4500
   },
   {
     id: 'Moderate',
     title: 'Moderate',
-    description: 'Balanced travel',
+    description: 'Balanced comfort and value',
     icon: '⚖️',
     color: 'orange',
     accent: 'text-brand-orange',
     bg: 'bg-brand-soft-orange',
     border: 'border-brand-orange/30',
     transport: {
-      toStation: 'Metro, AC Bus',
-      intercity: 'AC 3-tier Train, AC Bus',
-      local: 'Auto-rickshaw, Local Bus'
+      toStation: 'Shared Auto, AC Bus',
+      intercity: 'Superfast Train, AC Sleeper Coach',
+      local: 'Shared Cab, Auto-rickshaw'
     },
-    accommodation: 'Budget Hotels, Lodges',
-    attractions: 'Paid Museums, Guided Tours',
+    accommodation: 'Standard Guest House, Budget Hotel',
+    attractions: 'Heritage Walks, Local Shared Experiences',
     features: {
       support: true,
       insurance: true,
@@ -57,28 +57,28 @@ export const planTiers = [
     },
     benefits: [
       'Best value balance',
-      'AC travel options',
-      'Comfortable hotels',
-      'Guided experiences'
+      'Superfast or AC sleeper travel',
+      'Standard guest houses and hotels',
+      'Guided heritage walk and shared cabs'
     ],
-    multiplier: 1.0
+    referenceTotal: 7800
   },
   {
     id: 'Premium',
     title: 'Premium',
-    description: 'Luxury travel',
+    description: 'Upgraded comfort travel',
     icon: '💎',
     color: 'purple',
     accent: 'text-violet-700',
     bg: 'bg-violet-50',
     border: 'border-violet-200',
     transport: {
-      toStation: 'Private Cab, Airport Transfer',
-      intercity: '1st/2nd AC Train, Flight',
-      local: 'Rental Car, Private Cab'
+      toStation: 'Private Cab Transfer',
+      intercity: 'AC 2-Tier Train, Private Taxi',
+      local: 'Dedicated Local Cab'
     },
-    accommodation: '4-5 Star Hotels, Luxury Resorts',
-    attractions: 'VIP Tours, Exclusive Experiences',
+    accommodation: 'Verified 3-Star, Comfort Heritage Stay',
+    attractions: 'Priority Darshan, Personal Guide',
     features: {
       support: true,
       insurance: true,
@@ -88,12 +88,11 @@ export const planTiers = [
       meals: true
     },
     benefits: [
-      'Luxury accommodations',
-      'Private transport',
-      'VIP & exclusive tours',
-      'Personal travel assistant'
+      'Dedicated local cab',
+      'Verified comfortable 3-star stay',
+      'Priority darshan and personal guide'
     ],
-    multiplier: 1.65
+    referenceTotal: 14200
   }
 ];
 

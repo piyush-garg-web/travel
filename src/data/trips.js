@@ -11,28 +11,28 @@ export const mockTrips = [
     travelStyle: "Senior Friendly",
     budgetLevel: "Moderate",
     interests: ["Heritage", "Spiritual", "Nature"],
-    totalCost: 10460,
+    totalCost: 3200,
     transport: {
       id: "train-del-ddn-01",
       type: "Train",
-      name: "Dehradun Shatabdi Express (12017)",
+      name: "Dehradun Superfast Express (12017)",
       carrier: "Indian Railways",
       departure: "06:45 AM",
       arrival: "12:50 PM",
-      price: 780,
+      price: 600,
       passengerCount: 2
     },
     hotel: {
       id: "hotel-ddn-01",
-      name: "The Doon Valley Resort",
+      name: "Doon Yatri Niwas",
       location: "Rajpur Road, Dehradun",
-      pricePerNight: 2800,
+      pricePerNight: 500,
       nights: 3
     },
     localTravel: {
-      type: "Private Cab",
-      name: "Sedan (Dzire/Etios) for local transport",
-      pricePerDay: 1800,
+      type: "Shared Local Transport",
+      name: "Shared cab and local bus pass",
+      pricePerDay: 250,
       days: 3
     },
     itinerary: [
@@ -43,16 +43,16 @@ export const mockTrips = [
           {
             time: "06:45 AM",
             location: "New Delhi Railway Station",
-            activity: "Board Dehradun Shatabdi Express",
-            cost: 1560, // for 2 passengers
+            activity: "Board Dehradun Superfast Express",
+            cost: 1200, // for 2 passengers
             travelTime: "6h 05m",
             notes: "Comfortable AC Chair Car. Complimentary breakfast and tea served on board."
           },
           {
             time: "01:30 PM",
-            location: "The Doon Valley Resort",
+            location: "Doon Yatri Niwas",
             activity: "Check-in & Lunch",
-            cost: 2800, // hotel night 1
+            cost: 500, // hotel night 1
             travelTime: "25m transit from station",
             notes: "Pre-assigned ground floor room with wheelchair access and support handles in bathroom."
           },
@@ -68,7 +68,7 @@ export const mockTrips = [
             time: "07:30 PM",
             location: "Rajpur Road",
             activity: "Traditional Dinner at Ellora's",
-            cost: 800,
+            cost: 250,
             travelTime: "10m",
             notes: "Taste local bakery and authentic North Indian delicacies."
           }
@@ -90,7 +90,7 @@ export const mockTrips = [
             time: "01:00 PM",
             location: "Paltan Bazaar",
             activity: "Artisan Shopping & Lunch",
-            cost: 600,
+            cost: 200,
             travelTime: "15m",
             notes: "Support local women cooperatives selling hand-woven woolens and brass artifacts."
           },
@@ -112,7 +112,7 @@ export const mockTrips = [
             time: "09:00 AM",
             location: "Mussoorie Hills Excursion",
             activity: "Mall Road & Lal Tibba Vista",
-            cost: 2200, // Includes driver day charge + entry
+            cost: 300, // Shared local transport and entry
             travelTime: "1h 20m drive up",
             notes: "Scenic uphill drive. Safe, experienced mountain cab driver. Stops at scenic viewpoints."
           },
@@ -141,8 +141,8 @@ export const mockTrips = [
           {
             time: "02:30 PM",
             location: "Dehradun ISBT",
-            activity: "Return Volvo Bus to Delhi",
-            cost: 1300,
+            activity: "Return State Express Bus to Delhi",
+            cost: 600,
             travelTime: "5h 15m",
             notes: "Air-conditioned Volvo bus with reclining seats and water bottles provided."
           }
@@ -162,16 +162,16 @@ export const mockTrips = [
     travelStyle: "Family",
     budgetLevel: "Moderate",
     interests: ["Heritage", "Culture", "Shopping"],
-    totalCost: 14200,
+    totalCost: 7800,
     transport: {
       type: "Bus",
-      name: "UTC AC Volvo Seater",
+      name: "State AC Sleeper Coach",
       carrier: "UTC",
-      price: 600
+      price: 650
     },
     hotel: {
       name: "Umaid Bhawan Heritage Hotel",
-      pricePerNight: 3200
+      pricePerNight: 1000
     },
     itinerary: []
   }

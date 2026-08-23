@@ -69,12 +69,12 @@ export const MarketingLandingPage = () => {
   const plans = [
     {
       name: "AFFORDABLE",
-      tag: "Budget Explorer",
-      desc: "Smart travel for budget-conscious explorers.",
-      price: "₹1,200/day per person",
+      tag: "Community Saver",
+      desc: "Clean, practical travel for budget-conscious explorers.",
+      price: "₹375/day per person",
       perks: [
-        "AC Express Trains & Sleeper Buses",
-        "Clean, highly-reviewed budget lodges",
+        "State buses & sleeper trains",
+        "Clean dharamshalas & homestays",
         "Digital Passenger ID check-in",
         "Standard local transit recommendations"
       ]
@@ -83,25 +83,25 @@ export const MarketingLandingPage = () => {
       name: "MODERATE",
       tag: "Comfort Seeker",
       desc: "Balanced comfort, convenience and value.",
-      price: "₹2,800/day per person",
+      price: "₹650/day per person",
       perks: [
-        "AC Volvo / Express Train bookings",
-        "3-Star boutique hotels & homestays",
-        "Dedicated local cab/auto splits",
-        "Emergency medical assistance support"
+        "AC sleeper / superfast train bookings",
+        "Standard guest houses & budget hotels",
+        "Shared local cab and auto options",
+        "Guided heritage walk"
       ],
       highlighted: true
     },
     {
       name: "PREMIUM",
-      tag: "Luxury Travel",
-      desc: "Elevated travel with enhanced comfort and experiences.",
-      price: "₹6,500/day per person",
+      tag: "Comfort Travel",
+      desc: "Upgraded travel with reliable comfort and experiences.",
+      price: "₹1,180/day per person",
       perks: [
-        "Flight/SUV transit connections",
-        "4-Star & 5-Star luxury heritage stays",
-        "Private chauffeur-driven vehicles",
-        "Priority VIP Darshan & guided cultural escorts"
+        "AC 2-tier / private taxi connections",
+        "Verified comfortable 3-star stays",
+        "Dedicated local cab",
+        "Priority darshan & personal guide"
       ]
     }
   ];

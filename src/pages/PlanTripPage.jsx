@@ -288,9 +288,9 @@ export const PlanTripPage = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-xl mx-auto">
               {[
-                { id: "Affordable", title: "Affordable Tier", icon: "💰", price: "Bus/Train CC + Lodges", desc: "Maximize savings while keeping travel clean." },
-                { id: "Moderate", title: "Moderate Tier", icon: "⚖️", price: "AC Shatabdi/Volvo + 3★ Stays", desc: "Best value balance of quality amenities." },
-                { id: "Premium", title: "Premium Tier", icon: "💎", price: "SUV Cabs + 4/5★ Boutique Stays", desc: "Luxury vehicles, private support, luxury views." }
+                { id: "Affordable", title: "Affordable Tier", icon: "💰", price: "State Bus/Sleeper + Dharamshala", desc: "Clean, low-cost travel with community stays and meals." },
+                { id: "Moderate", title: "Moderate Tier", icon: "⚖️", price: "AC Sleeper + Budget Hotel", desc: "Balanced comfort with shared local travel and heritage walks." },
+                { id: "Premium", title: "Premium Tier", icon: "💎", price: "Private Taxi + Verified 3★ Stay", desc: "Upgraded comfort with a dedicated cab and personal guide." }
               ].map((bTier) => (
                 <button
                   key={bTier.id}

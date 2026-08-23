@@ -428,11 +428,11 @@ export const ExplorePage = () => {
           {[
             {
               name: "Affordable",
-              priceDesc: "From ₹1,200/day per person",
-              desc: "Great for budget seekers, backpackers, and solo wanders.",
+              priceDesc: "From ₹375/day per person",
+              desc: "For practical, budget-conscious journeys.",
               perks: [
-                "AC Express Trains / Deluxe Buses",
-                "Clean, reviewed budget lodges",
+                "State buses / sleeper trains",
+                "Clean dharamshalas and homestays",
                 "Digital Passenger ID check-in",
                 "Basic local transit recommendations"
               ],
@@ -440,13 +440,13 @@ export const ExplorePage = () => {
             },
             {
               name: "Moderate",
-              priceDesc: "From ₹2,800/day per person",
-              desc: "Ideal balance of comfort, family convenience, and premium stays.",
+              priceDesc: "From ₹650/day per person",
+              desc: "A balanced choice for comfort and value.",
               perks: [
-                "Punctual Trains / AC Volvo sleeper / Cab splits",
-                "3-Star Hotels & Heritage Stays",
-                "Dedicated Local Cab services",
-                "Fast-track VIP Darshan booking",
+                "Superfast trains / AC sleeper coaches",
+                "Standard guest houses and budget hotels",
+                "Shared local cabs and autos",
+                "Guided heritage walk",
                 "Emergency medical helpline access"
               ],
               cta: "Plan Moderate Trip",
@@ -454,15 +454,13 @@ export const ExplorePage = () => {
             },
             {
               name: "Premium",
-              priceDesc: "From ₹6,500/day per person",
-              desc: "Absolute luxury, private SUV rides, and hand-selected resorts.",
+              priceDesc: "From ₹1,180/day per person",
+              desc: "Extra comfort with a dedicated local cab and guide.",
               perks: [
-                "Flights / Helicopters / Premium SUVs",
-                "4-Star & 5-Star Boutique Stays",
-                "24/7 Personal Chauffeur service",
-                "Paramedic escort & priority seating",
-                "Curated gourmet dining reservations",
-                "Flexible itinerary rescheduling"
+                "AC 2-tier train / private taxi",
+                "Verified comfortable 3-star stays",
+                "Dedicated local cab service",
+                "Priority darshan and personal guide"
               ],
               cta: "Plan Premium Trip"
             }

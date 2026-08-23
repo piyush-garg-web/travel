@@ -15,9 +15,9 @@ export const PlanComparisonPage = () => {
   const nights = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
   const days = nights + 1;
 
-  const baseEstimatePerDayPerPerson = 2200;
   const getEstimatedTotal = (tier) => {
-    return Math.round(baseEstimatePerDayPerPerson * days * planner.travellers * tier.multiplier);
+    // Tier totals are calibrated for 3 travellers over 4 days / 3 nights.
+    return Math.round(tier.referenceTotal * (days / 4) * (planner.travellers / 3));
   };
 
   const handleContinue = () => {

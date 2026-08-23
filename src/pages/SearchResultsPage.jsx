@@ -443,8 +443,13 @@ export const SearchResultsPage = () => {
                   <span className="font-bold">₹{bookingCart.costBreakdown.activities}</span>
                 </div>
 
+                <div className="flex justify-between items-center font-bold">
+                  <span>Base Package Subtotal</span>
+                  <span>₹{bookingCart.costBreakdown.total - bookingCart.costBreakdown.tax}</span>
+                </div>
+
                 <div className="flex justify-between items-center text-brand-muted">
-                  <span>GST & Service Charge (5%)</span>
+                  <span>GST (18%)</span>
                   <span>₹{bookingCart.costBreakdown.tax}</span>
                 </div>
               </div>

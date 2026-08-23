@@ -4,17 +4,17 @@ export const transportOptions = [
     from: "Delhi",
     to: "Dehradun",
     type: "Bus",
-    name: "UTC Volvo A/C Seater (2+2)",
+    name: "UTC State Express Bus",
     carrier: "Uttarakhand Transport Corp",
     departure: "06:00 AM",
     arrival: "11:15 AM",
     duration: "5h 15m",
-    price: 650,
+    price: 300,
     rating: 4.3,
     co2Saved: 12.4, // kg CO2 saved compared to cab
     isRecommended: true,
-    recommendationReason: "Best Value & Comfort. Direct highway route with minimal stops.",
-    amenities: ["Charging Port", "Water Bottle", "Blanket", "Reclining Seats"],
+    recommendationReason: "Affordable direct route with practical rest stops.",
+    amenities: ["Luggage Space", "Regular Stops", "Reclining Seats"],
     seatsAvailable: 14,
     frequency: "Every 1 hour"
   },
@@ -23,17 +23,17 @@ export const transportOptions = [
     from: "Delhi",
     to: "Dehradun",
     type: "Bus",
-    name: "Zingbus Premium AC Sleeper",
+    name: "Non-AC Sleeper Coach",
     carrier: "Zingbus",
     departure: "11:30 PM",
     arrival: "05:00 AM",
     duration: "5h 30m",
-    price: 850,
+    price: 350,
     rating: 4.5,
     co2Saved: 12.4,
     isRecommended: false,
     recommendationReason: "Best for overnight travel. Arrive fresh in the morning.",
-    amenities: ["Charging Port", "CCTV", "Pillow", "WiFi", "Live Tracking"],
+    amenities: ["Pillow", "Blanket", "Luggage Space"],
     seatsAvailable: 8,
     frequency: "Daily overnight"
   },
@@ -42,17 +42,17 @@ export const transportOptions = [
     from: "Delhi",
     to: "Dehradun",
     type: "Train",
-    name: "Dehradun Shatabdi Express (12017)",
+    name: "Dehradun Superfast Express (12017)",
     carrier: "Indian Railways",
     departure: "06:45 AM",
     arrival: "12:50 PM",
     duration: "6h 05m",
-    price: 780, // Chair Car AC
+    price: 600, // AC chair car / superfast fare
     rating: 4.6,
     co2Saved: 18.5, // Best for environment
     isRecommended: true,
-    recommendationReason: "Highly Punctual & Eco-Friendly. Includes complimentary meals.",
-    amenities: ["Complementary Meal", "Charging Port", "Luggage Rack", "On-board Toilet"],
+    recommendationReason: "Reliable and economical intercity rail option.",
+    amenities: ["Charging Port", "Luggage Rack", "On-board Toilet"],
     seatsAvailable: 45,
     frequency: "Daily"
   },
@@ -66,7 +66,7 @@ export const transportOptions = [
     departure: "11:50 PM",
     arrival: "05:40 AM",
     duration: "5h 50m",
-    price: 1100, // AC 3 Tier
+    price: 700, // AC 3 Tier
     rating: 4.4,
     co2Saved: 18.5,
     isRecommended: false,
@@ -85,7 +85,7 @@ export const transportOptions = [
     departure: "Flexible (On Demand)",
     arrival: "Flexible",
     duration: "4h 45m",
-    price: 3800, // Total cab cost
+    price: 1200, // Per traveller shared cab fare
     rating: 4.8,
     co2Saved: 0, // Baseline
     isRecommended: false,
@@ -104,7 +104,7 @@ export const transportOptions = [
     departure: "Flexible (On Demand)",
     arrival: "Flexible",
     duration: "4h 45m",
-    price: 5500,
+    price: 1800, // Per traveller private taxi fare
     rating: 4.9,
     co2Saved: 0,
     isRecommended: true,

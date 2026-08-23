@@ -2,11 +2,11 @@ export const offers = [
   {
     id: "off-first",
     code: "EZYFIRST",
-    title: "Flat ₹500 Off on First Trip",
-    description: "Welcome to smart travel. Use code EZYFIRST to get flat ₹500 off on your first full itinerary booking.",
+    title: "Flat ₹250 Off on First Trip",
+    description: "Welcome to smart travel. Use code EZYFIRST to get flat ₹250 off on your first full itinerary booking.",
     discountType: "Flat",
-    value: 500,
-    minBooking: 2500,
+    value: 250,
+    minBooking: 1200,
     category: "Travel Coupons",
     iconName: "Gift"
   },
@@ -14,10 +14,10 @@ export const offers = [
     id: "off-hdfc",
     code: "HDFCSMART",
     title: "10% Cashback on HDFC Cards",
-    description: "Get up to ₹1,500 cashback on bookings made using HDFC Bank Credit & Debit Cards.",
+    description: "Get up to ₹250 cashback on bookings made using HDFC Bank Credit & Debit Cards.",
     discountType: "Percentage",
     value: 10,
-    minBooking: 5000,
+    minBooking: 2400,
     category: "Bank Offers",
     iconName: "CreditCard"
   },
@@ -46,11 +46,11 @@ export const offers = [
   {
     id: "off-family",
     code: "FAMILYPACK",
-    title: "Save ₹1,200 on Family Group Bookings",
-    description: "Traveling together is sweet. Get flat ₹1,200 discount when planning and booking for 4 or more travellers.",
+    title: "Save ₹250 on Family Group Bookings",
+    description: "Traveling together is sweet. Get flat ₹250 discount when planning and booking for 4 or more travellers.",
     discountType: "Flat",
-    value: 1200,
-    minBooking: 8000,
+    value: 250,
+    minBooking: 2400,
     category: "Travel Coupons",
     iconName: "Users"
   }

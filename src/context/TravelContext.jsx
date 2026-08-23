@@ -7,6 +7,13 @@ import { hotels } from '../data/hotels';
 
 const TravelContext = createContext(null);
 
+const getSelectedTransportTotal = (transport, travellers) => {
+  if (!transport) return 0;
+  return transport.type === 'Cab'
+    ? transport.price
+    : transport.price * (travellers || 1);
+};
+
 export const TravelProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(() => {
     return localStorage.getItem('token') || null;
@@ -143,8 +150,11 @@ export const TravelProvider = ({ children }) => {
     }
   };
 
-  // Plan tier multipliers used for cost estimation
-  const planMultiplier = selectedPlan === 'Premium' ? 1.65 : selectedPlan === 'Affordable' ? 0.75 : 1.0;
+  const packageBreakdowns = {
+    Affordable: { hotel: 2600, localTravel: 500, activities: 500 },
+    Moderate: { hotel: 4700, localTravel: 900, activities: 1300 },
+    Premium: { hotel: 6500, localTravel: 1300, activities: 5500 }
+  };
 
   // Set selected transport or hotel in booking cart
   const setBookingItem = (type, item) => {
@@ -152,10 +162,16 @@ export const TravelProvider = ({ children }) => {
       const updated = { ...prev, [type]: item };
 
       // Calculate costs
-      const transCost = updated.transport ? Math.round(updated.transport.price * (planner.travellers || 1) * (selectedPlan === 'Premium' && updated.transport.type === 'Cab' ? 1.2 : planMultiplier)) : 0;
-      const stayCost = updated.hotel ? Math.round(updated.hotel.pricePerNight * 3 * planMultiplier) : 0; // Assume 3 nights
-      const localCost = type === 'localTravel' ? Math.round(item.price * planMultiplier) : (updated.localTravel ? Math.round(updated.localTravel.price * planMultiplier) : Math.round(500 * planMultiplier)); // Mock flat local transport
-      const actCost = Math.round(updated.activities.reduce((sum, a) => sum + (a.cost || 0), 0) * planMultiplier);
+      const transCost = type === 'transport'
+        ? getSelectedTransportTotal(item, planner.travellers)
+        : prev.costBreakdown.transport;
+      const stayCost = type === 'hotel'
+        ? item.pricePerNight * 3
+        : prev.costBreakdown.hotel;
+      const localCost = type === 'localTravel'
+        ? item.price
+        : prev.costBreakdown.localTravel;
+      const actCost = prev.costBreakdown.activities;
 
       const subTotal = transCost + stayCost + localCost + actCost;
 
@@ -164,8 +180,8 @@ export const TravelProvider = ({ children }) => {
         hotel: stayCost,
         localTravel: localCost,
         activities: actCost,
-        tax: Math.round(subTotal * 0.05), // 5% GST
-        total: subTotal + Math.round(subTotal * 0.05)
+        tax: Math.round(subTotal * 0.18), // Standard 18% GST
+        total: subTotal + Math.round(subTotal * 0.18)
       };
 
       return updated;
@@ -185,44 +201,28 @@ export const TravelProvider = ({ children }) => {
              h.isSeniorFriendly === (planner.style === 'Senior Friendly')
     ) || hotels[0];
 
-    const defaultLocal = { name: "JanYatri Eco-Electric Cab Pass", price: 600 };
+    const packageBreakdown = packageBreakdowns[selectedPlan] || packageBreakdowns.Moderate;
+    const transportCost = getSelectedTransportTotal(recommendedTrans, planner.travellers);
+    const defaultLocal = { name: "JanYatri Shared Local Travel Pass", price: packageBreakdown.localTravel };
+    const includedExperiences = [
+      { name: "Community Visits & Guided Trails", cost: packageBreakdown.activities }
+    ];
+    const baseSubtotal = transportCost + packageBreakdown.hotel + packageBreakdown.localTravel + packageBreakdown.activities;
+    const gstAmount = Math.round(baseSubtotal * 0.18);
 
     setBookingCart({
       transport: recommendedTrans,
       hotel: recommendedHotel,
-      activities: [
-        { name: "Guided Heritage Site Walk", cost: 150 },
-        { name: "Local Traditional Dining Experience", cost: 400 }
-      ],
+      activities: includedExperiences,
       localTravel: defaultLocal,
       costBreakdown: {
-        transport: recommendedTrans ? (recommendedTrans.price * planner.travellers) : 1300,
-        hotel: recommendedHotel ? (recommendedHotel.pricePerNight * 3) : 8400,
-        localTravel: 600,
-        activities: 550,
-        tax: 500,
-        total: 0 // Will compute dynamically
+        transport: transportCost,
+        hotel: packageBreakdown.hotel,
+        localTravel: packageBreakdown.localTravel,
+        activities: packageBreakdown.activities,
+        tax: gstAmount,
+        total: baseSubtotal + gstAmount
       }
-    });
-
-    // Compute initial total with plan multiplier
-    setBookingCart((prev) => {
-      const transCost = prev.transport ? Math.round(prev.transport.price * planner.travellers * (selectedPlan === 'Premium' && prev.transport.type === 'Cab' ? 1.2 : planMultiplier)) : Math.round(1300 * planMultiplier);
-      const stayCost = prev.hotel ? Math.round(prev.hotel.pricePerNight * 3 * planMultiplier) : Math.round(8400 * planMultiplier);
-      const localCost = Math.round(600 * planMultiplier);
-      const activitiesCost = Math.round(550 * planMultiplier);
-      const sub = transCost + stayCost + localCost + activitiesCost;
-      return {
-        ...prev,
-        costBreakdown: {
-          transport: transCost,
-          hotel: stayCost,
-          localTravel: localCost,
-          activities: activitiesCost,
-          tax: Math.round(sub * 0.05),
-          total: sub + Math.round(sub * 0.05)
-        }
-      };
     });
   };
 

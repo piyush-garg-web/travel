@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
-import { mockUsersList } from '../data/users';
 import varanasiGangesBg from '../assets/varanasi-ganges.png';
-import { User, Mail, Lock, ArrowRight, ShieldCheck, Phone, MapPin } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck, Phone, MapPin } from 'lucide-react';
 import { authService } from '../services/authService';
 
 export const LoginPage = () => {
@@ -13,17 +12,12 @@ export const LoginPage = () => {
   const redirectPath = searchParams.get('redirect') || '/explore';
 
   const [isRegister, setIsRegister] = useState(false);
-  const [selectedUserIndex, setSelectedUserIndex] = useState(0);
-  const [username, setUsername] = useState(mockUsersList[0].name);
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('••••••••••••');
+  const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
-
-  const handleUserSelect = (index) => {
-    setSelectedUserIndex(index);
-    setUsername(mockUsersList[index].name);
-  };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -130,21 +124,18 @@ export const LoginPage = () => {
             <h2 className="text-xl font-bold text-brand-forest tracking-wide">
               {isRegister ? "Create Your Account" : "Sign In to Your Account"}
             </h2>
-            <p className="text-xs text-brand-muted mt-1.5">
-              {isRegister
-                ? "Register to customize your Smart India travel itineraries."
-                : "Select a mock user profile to explore personalized travel planners."}
-            </p>
+            {isRegister && (
+              <p className="text-xs text-brand-muted mt-1.5">
+                Register to customize your Smart India travel itineraries.
+              </p>
+            )}
           </div>
 
           {/* Mode Selector Tab Toggle */}
           <div className="flex border-b border-brand-border pb-2">
             <button
               type="button"
-              onClick={() => {
-                setIsRegister(false);
-                setUsername(mockUsersList[selectedUserIndex].name);
-              }}
+              onClick={() => setIsRegister(false)}
               className={`flex-1 pb-2 text-sm font-bold tracking-wider uppercase transition-all cursor-pointer ${
                 !isRegister
                   ? 'text-brand-orange border-b-2 border-brand-orange'
@@ -155,10 +146,7 @@ export const LoginPage = () => {
             </button>
             <button
               type="button"
-              onClick={() => {
-                setIsRegister(true);
-                setUsername('');
-              }}
+              onClick={() => setIsRegister(true)}
               className={`flex-1 pb-2 text-sm font-bold tracking-wider uppercase transition-all cursor-pointer ${
                 isRegister
                   ? 'text-brand-orange border-b-2 border-brand-orange'
@@ -171,28 +159,6 @@ export const LoginPage = () => {
 
           {!isRegister ? (
             <>
-              {/* Mock User Selector Cards */}
-              <div className="flex flex-col gap-2.5">
-                <span className="text-[10px] font-bold text-brand-orange uppercase tracking-wider text-left">Select Travel Profile</span>
-                <div className="grid grid-cols-2 gap-3">
-                  {mockUsersList.map((mockUser, index) => (
-                    <button
-                      key={mockUser.id}
-                      type="button"
-                      onClick={() => handleUserSelect(index)}
-                      className={`p-3.5 rounded-xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${
-                        selectedUserIndex === index
-                          ? 'bg-brand-soft-orange border-brand-orange text-brand-forest shadow-sm'
-                          : 'bg-brand-cream border-brand-border text-brand-muted hover:bg-brand-soft-orange'
-                      }`}
-                    >
-                      <span className="text-xs font-bold">{mockUser.name}</span>
-                      <span className="text-[10px] text-brand-muted">{mockUser.ageGroup}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
                 {/* Username Field */}
                 <div className="flex flex-col gap-1.5 text-left">
@@ -215,18 +181,26 @@ export const LoginPage = () => {
                 {/* Password Field */}
                 <div className="flex flex-col gap-1.5 text-left">
                   <label className="text-[10px] font-bold text-brand-muted uppercase tracking-wider">Password</label>
-                  <div className="relative">
+                  <div className="relative flex items-center">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-brand-muted">
                       <Lock className="w-4 h-4" />
                     </span>
                     <input
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter your password"
-                      className="w-full pl-9 pr-4 py-3 rounded-xl border border-brand-border bg-brand-ivory text-brand-forest text-xs font-semibold focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      className="w-full pl-9 pr-10 py-3 rounded-xl border border-brand-border bg-brand-ivory text-brand-forest text-xs font-semibold focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((visible) => !visible)}
+                      className="absolute right-3 text-brand-muted hover:text-brand-forest focus:outline-none transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
                   </div>
                 </div>
 
@@ -290,19 +264,27 @@ export const LoginPage = () => {
               {/* Password Field */}
               <div className="flex flex-col gap-1.5 text-left">
                 <label className="text-[10px] font-bold text-brand-muted uppercase tracking-wider">Password</label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-brand-muted">
-                    <Lock className="w-4 h-4" />
-                  </span>
-                  <input
-                    type="password"
-                    value={password === '••••••••••••' ? '' : password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Choose a password"
-                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-brand-border bg-brand-ivory text-brand-forest text-xs font-semibold focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
-                    required
-                  />
-                </div>
+                  <div className="relative flex items-center">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-brand-muted">
+                      <Lock className="w-4 h-4" />
+                    </span>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Choose a password"
+                      className="w-full pl-9 pr-10 py-3 rounded-xl border border-brand-border bg-brand-ivory text-brand-forest text-xs font-semibold focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((visible) => !visible)}
+                      className="absolute right-3 text-brand-muted hover:text-brand-forest focus:outline-none transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
               </div>
 
               {/* Phone Field */}
