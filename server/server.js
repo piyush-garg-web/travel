@@ -1,45 +1,53 @@
-const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config({
+  path: path.resolve(__dirname, '.env'),
+});
 
-let cached = global.mongoose;
+const express = require('express');
+const cors = require('cors');
 
-if (!cached) {
-  cached = global.mongoose = {
-    conn: null,
-    promise: null
-  };
-}
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
 
-const connectDB = async () => {
-  if (cached.conn) {
-    return cached.conn;
-  }
+const app = express();
 
-  if (!process.env.MONGODB_URI) {
-    throw new Error('MONGODB_URI environment variable is not set');
-  }
+// Middleware
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
-  if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(process.env.MONGODB_URI, {
-        dbName: 'janyatri'
-      })
-      .then((mongooseInstance) => {
-        console.log(
-          `MongoDB Connected: ${mongooseInstance.connection.host}`
-        );
+app.use(express.json());
 
-        return mongooseInstance;
-      });
-  }
+// Database
+connectDB();
 
-  try {
-    cached.conn = await cached.promise;
-    return cached.conn;
-  } catch (error) {
-    cached.promise = null;
-    console.error('MongoDB connection failed:', error.message);
-    throw error;
-  }
-};
+// Health check
+app.get('/', (req, res) => {
+  res.json({
+    message: 'JanYatri backend is running!',
+  });
+});
 
-module.exports = connectDB;
+// Auth routes
+app.use('/api/auth', authRoutes);
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(500).json({
+    message: 'Internal Server Error',
+  });
+});
+
+// Server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
