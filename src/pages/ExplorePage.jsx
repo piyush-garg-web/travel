@@ -3,18 +3,17 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTravel } from '../context/TravelContext';
 import varanasiGangesBg from '../assets/varanasi-ganges.png';
+import { SafeImage } from '../components/SafeImage';
 import { 
   ArrowRight, 
   MapPin, 
   Calendar as CalIcon, 
   Users, 
   Compass, 
-  Heart, 
   ShieldAlert, 
   Leaf, 
   Cpu, 
   CheckCircle,
-  HelpCircle,
   TrendingUp,
   Award
 } from 'lucide-react';
@@ -23,7 +22,7 @@ import { shortTrips } from '../data/shortTrips';
 import { tirthYatraPackages } from '../data/tirthYatra';
 
 export const ExplorePage = () => {
-  const { planner, updatePlanner } = useTravel();
+  const { planner, updatePlanner, isLoggedIn } = useTravel();
   const navigate = useNavigate();
 
   // Local state for hero planner form
@@ -42,6 +41,10 @@ export const ExplorePage = () => {
       travellers: Number(guests),
       tripType: type
     });
+    if (!isLoggedIn) {
+      navigate('/login?redirect=/plan-trip');
+      return;
+    }
     // Go directly to plan-trip with these values preset
     navigate('/plan-trip');
   };
@@ -50,15 +53,17 @@ export const ExplorePage = () => {
     <div className="min-h-screen bg-brand-ivory text-brand-forest">
       
       {/* Cinematic Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-brand-forest">
-        {/* Dynamic backdrop gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0F0A09]/40 via-[#FF6F00]/10 to-[#0F0A09]"></div>
-        
+      <section className="relative min-h-[90vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-brand-ivory">
+        {/* Subtle warm gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-cream via-brand-ivory to-brand-soft-orange"></div>
+
         {/* Absolute Background Image representing Indian Landscapes */}
-        <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat mix-blend-overlay opacity-35"
+        <div
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-35"
           style={{ backgroundImage: `url(${varanasiGangesBg})` }}
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-ivory via-brand-ivory/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-cream/50 via-transparent to-brand-soft-orange/20"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
@@ -74,21 +79,21 @@ export const ExplorePage = () => {
               <span>Smart Travel Aggregator</span>
             </motion.div>
             
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight"
+              className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-forest tracking-tight leading-tight"
             >
               Your Journey.<br />
-              <span className="text-brand-gold">One Smart Plan.</span>
+              <span className="text-brand-orange">One Smart Plan.</span>
             </motion.h1>
-            
-            <motion.p 
+
+            <motion.p
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-brand-ivory/80 text-base sm:text-lg max-w-xl font-medium"
+              className="text-brand-muted text-base sm:text-lg max-w-xl font-medium"
             >
               From transport and stays to local experiences and sacred journeys — plan, compare, and book your complete trip in one place.
             </motion.p>
@@ -97,7 +102,7 @@ export const ExplorePage = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap gap-4 text-brand-ivory/60 text-xs sm:text-sm font-semibold"
+              className="flex flex-wrap gap-4 text-brand-muted text-xs sm:text-sm font-semibold"
             >
               <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-brand-orange" /> Plan Less. Travel More.</span>
               <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-brand-orange" /> Unified Bookings</span>
@@ -110,26 +115,26 @@ export const ExplorePage = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="lg:col-span-6 bg-[#1D1614]/75 border border-brand-gold/15 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col gap-6 text-left"
+            className="lg:col-span-6 bg-white border border-brand-border p-6 sm:p-8 rounded-3xl shadow-premium flex flex-col gap-6 text-left"
           >
             <div>
               <h3 className="font-extrabold text-xl sm:text-2xl text-brand-forest">Start Your Smart Plan</h3>
-              <p className="text-sm text-brand-forest/65 mt-1">Select your preferences to generate a custom itinerary.</p>
+              <p className="text-sm text-brand-muted mt-1">Select your preferences to generate a custom itinerary.</p>
             </div>
 
             <form onSubmit={handleHeroSubmit} className="flex flex-col gap-4">
               
               {/* Trip Type Selector */}
-              <div className="grid grid-cols-3 gap-2 p-1.5 rounded-xl bg-brand-mint border border-brand-teal/5">
+              <div className="grid grid-cols-3 gap-2 p-1.5 rounded-xl bg-brand-cream border border-brand-border">
                 {['Regular Trip', 'Short Trip', 'Tirth Yatra'].map((tType) => (
                   <button
                     key={tType}
                     type="button"
                     onClick={() => setType(tType)}
                     className={`py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      type === tType 
-                        ? 'bg-brand-teal text-white shadow-sm' 
-                        : 'text-brand-forest/70 hover:text-brand-teal hover:bg-white/50'
+                      type === tType
+                        ? 'bg-brand-orange text-white shadow-sm'
+                        : 'text-brand-forest/70 hover:text-brand-orange hover:bg-white'
                     }`}
                   >
                     {tType}
@@ -140,13 +145,13 @@ export const ExplorePage = () => {
               {/* Source & Destination */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-brand-forest/75 uppercase tracking-wide flex items-center gap-1">
+                  <label className="text-xs font-bold text-brand-muted uppercase tracking-wide flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-brand-orange" /> From
                   </label>
                   <select
                     value={fromLoc}
                     onChange={(e) => setFromLoc(e.target.value)}
-                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
+                    className="p-3 rounded-xl border border-brand-border focus:outline-none focus:ring-2 focus:ring-brand-orange bg-brand-ivory text-sm text-brand-forest font-semibold"
                   >
                     <option value="Delhi">Delhi</option>
                     <option value="Jaipur">Jaipur</option>
@@ -157,13 +162,13 @@ export const ExplorePage = () => {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-brand-forest/75 uppercase tracking-wide flex items-center gap-1">
+                  <label className="text-xs font-bold text-brand-muted uppercase tracking-wide flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-brand-orange" /> To Destination
                   </label>
                   <select
                     value={toLoc}
                     onChange={(e) => setToLoc(e.target.value)}
-                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
+                    className="p-3 rounded-xl border border-brand-border focus:outline-none focus:ring-2 focus:ring-brand-orange bg-brand-ivory text-sm text-brand-forest font-semibold"
                   >
                     <option value="Dehradun">Dehradun (Doon)</option>
                     <option value="Jaipur">Jaipur (Pink City)</option>
@@ -179,19 +184,19 @@ export const ExplorePage = () => {
               {/* Date & Guests */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-brand-forest/75 uppercase tracking-wide flex items-center gap-1">
+                  <label className="text-xs font-bold text-brand-muted uppercase tracking-wide flex items-center gap-1">
                     <CalIcon className="w-3.5 h-3.5 text-brand-orange" /> Departure Date
                   </label>
                   <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
+                    className="p-3 rounded-xl border border-brand-border focus:outline-none focus:ring-2 focus:ring-brand-orange bg-brand-ivory text-sm text-brand-forest font-semibold"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-brand-forest/75 uppercase tracking-wide flex items-center gap-1">
+                  <label className="text-xs font-bold text-brand-muted uppercase tracking-wide flex items-center gap-1">
                     <Users className="w-3.5 h-3.5 text-brand-orange" /> Travellers
                   </label>
                   <input
@@ -200,7 +205,7 @@ export const ExplorePage = () => {
                     max="10"
                     value={guests}
                     onChange={(e) => setGuests(e.target.value)}
-                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
+                    className="p-3 rounded-xl border border-brand-border focus:outline-none focus:ring-2 focus:ring-brand-orange bg-brand-ivory text-sm text-brand-forest font-semibold"
                   />
                 </div>
               </div>
@@ -208,7 +213,7 @@ export const ExplorePage = () => {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="mt-2 w-full p-4 rounded-xl bg-brand-orange hover:bg-brand-orange/95 text-white font-bold text-base tracking-wide shadow-md shadow-brand-orange/20 flex items-center justify-center gap-2 group transition-all cursor-pointer"
+                className="mt-2 w-full p-4 rounded-xl bg-brand-orange hover:bg-brand-secondary text-white font-bold text-base tracking-wide shadow-md shadow-brand-orange/15 flex items-center justify-center gap-2 group transition-all cursor-pointer"
               >
                 <span>Plan My Journey</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -245,9 +250,9 @@ export const ExplorePage = () => {
               className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-brand-teal/5 shadow-premium hover:shadow-premium-hover transition-all duration-300"
             >
               <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={dest.image} 
-                  alt={dest.name} 
+                <SafeImage
+                  src={dest.image}
+                  alt={dest.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -273,18 +278,18 @@ export const ExplorePage = () => {
       </section>
 
       {/* Short Trips Section */}
-      <section className="bg-brand-forest text-brand-ivory py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-brand-cream text-brand-forest py-20 px-4 sm:px-6 lg:px-8 border-y border-brand-border">
         <div className="max-w-7xl mx-auto text-left">
           
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
             <div>
               <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">Escape. Explore. Return.</span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1">Short Weekend Trips</h2>
-              <p className="text-brand-ivory/60 mt-2">Perfect local quick tourism packages mapped out dynamically.</p>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-forest mt-1">Short Weekend Trips</h2>
+              <p className="text-brand-muted mt-2">Perfect local quick tourism packages mapped out dynamically.</p>
             </div>
             <Link 
               to="/short-trips" 
-              className="flex items-center gap-1.5 text-brand-gold hover:text-brand-orange font-bold text-sm transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 text-brand-secondary hover:text-brand-orange font-bold text-sm transition-colors cursor-pointer"
             >
               <span>View Short Trips</span>
               <ArrowRight className="w-4 h-4" />
@@ -293,27 +298,27 @@ export const ExplorePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {shortTrips.slice(0, 3).map((st) => (
-              <div key={st.id} className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex flex-col">
+              <div key={st.id} className="rounded-2xl overflow-hidden bg-white border border-brand-border flex flex-col shadow-premium hover:shadow-premium-hover transition-all duration-300">
                 <div className="h-44 relative">
-                  <img src={st.image} alt={st.title} className="w-full h-full object-cover" />
+                  <SafeImage src={st.image} alt={st.title} className="w-full h-full object-cover" />
                   <div className="absolute top-4 left-4 bg-brand-orange text-white text-xs font-bold px-2.5 py-1 rounded-lg">
                     {st.duration}
                   </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col justify-between gap-4 text-sm">
                   <div>
-                    <span className="text-[10px] text-brand-gold font-bold uppercase tracking-wider">{st.category}</span>
-                    <h3 className="text-lg font-bold text-white mt-1">{st.title}</h3>
-                    <p className="text-brand-ivory/60 mt-2 text-xs line-clamp-2">{st.bestFor}</p>
+                    <span className="text-[10px] text-brand-secondary font-bold uppercase tracking-wider">{st.category}</span>
+                    <h3 className="text-lg font-bold text-brand-forest mt-1">{st.title}</h3>
+                    <p className="text-brand-muted mt-2 text-xs line-clamp-2">{st.bestFor}</p>
                   </div>
-                  <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                  <div className="flex items-center justify-between border-t border-brand-border pt-4">
                     <div>
-                      <span className="text-xs text-brand-ivory/40">Est. Cost</span>
-                      <p className="text-base font-bold text-white">₹{st.price}/person</p>
+                      <span className="text-xs text-brand-muted">Est. Cost</span>
+                      <p className="text-base font-bold text-brand-forest">₹{st.price}/person</p>
                     </div>
                     <Link 
                       to={`/plan-trip?dest=${st.to}`} 
-                      className="px-4 py-2 bg-brand-teal text-white rounded-lg font-bold text-xs hover:bg-brand-orange transition-colors cursor-pointer"
+                      className="px-4 py-2 bg-brand-orange text-white rounded-lg font-bold text-xs hover:bg-brand-secondary transition-colors cursor-pointer"
                     >
                       Plan This Trip
                     </Link>
@@ -347,7 +352,7 @@ export const ExplorePage = () => {
           {tirthYatraPackages.slice(0, 2).map((pkg) => (
             <div key={pkg.id} className="rounded-3xl p-6 sm:p-8 bg-white border border-brand-teal/5 shadow-premium flex flex-col md:flex-row gap-6">
               <div className="w-full md:w-44 h-48 md:h-full rounded-2xl overflow-hidden flex-shrink-0">
-                <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover" />
+                <SafeImage src={pkg.image} alt={pkg.title} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 flex flex-col justify-between gap-4 text-sm">
                 <div>
@@ -466,17 +471,17 @@ export const ExplorePage = () => {
               key={index}
               className={`rounded-3xl p-8 flex flex-col justify-between text-left gap-6 border transition-all duration-300 ${
                 tier.highlighted 
-                  ? 'bg-brand-forest text-brand-ivory border-brand-teal shadow-xl scale-105' 
-                  : 'bg-white text-brand-forest border-brand-teal/10 shadow-premium'
+                  ? 'bg-brand-forest text-brand-ivory border-brand-orange shadow-xl scale-105' 
+                  : 'bg-white text-brand-forest border-brand-border shadow-premium'
               }`}
             >
               <div>
-                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${tier.highlighted ? 'bg-brand-orange text-white' : 'bg-brand-mint text-brand-teal'}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${tier.highlighted ? 'bg-brand-orange text-white' : 'bg-brand-soft-orange text-brand-secondary'}`}>
                   {tier.name === 'Moderate' ? 'Most Popular' : tier.name}
                 </span>
                 <h3 className="text-2xl font-black mt-3">{tier.name}</h3>
                 <p className={`text-xs mt-1 ${tier.highlighted ? 'text-brand-ivory/60' : 'text-brand-forest/60'}`}>{tier.priceDesc}</p>
-                <div className={`h-px my-4 ${tier.highlighted ? 'bg-white/10' : 'bg-brand-teal/10'}`}></div>
+                <div className={`h-px my-4 ${tier.highlighted ? 'bg-white/10' : 'bg-brand-border'}`}></div>
                 <p className={`text-sm leading-relaxed ${tier.highlighted ? 'text-brand-ivory/80' : 'text-brand-forest/75'}`}>{tier.desc}</p>
                 
                 <ul className="mt-6 flex flex-col gap-3 text-sm">
@@ -493,8 +498,8 @@ export const ExplorePage = () => {
                 to="/plan-trip"
                 className={`mt-4 w-full py-3 rounded-xl font-bold text-center text-sm shadow-sm transition-all ${
                   tier.highlighted 
-                    ? 'bg-brand-orange hover:bg-brand-orange/90 text-white' 
-                    : 'bg-brand-teal hover:bg-brand-forest text-white'
+                    ? 'bg-brand-orange hover:bg-brand-secondary text-white' 
+                    : 'bg-brand-secondary hover:bg-brand-forest text-white'
                 }`}
               >
                 {tier.cta}
@@ -505,12 +510,12 @@ export const ExplorePage = () => {
       </section>
 
       {/* Smart Features Grid */}
-      <section className="bg-brand-forest text-white py-20 px-4 sm:px-6 lg:px-8 border-t border-brand-teal/20">
+      <section className="bg-brand-soft-orange/40 text-brand-forest py-20 px-4 sm:px-6 lg:px-8 border-t border-brand-border">
         <div className="max-w-7xl mx-auto text-left">
           <div className="mb-12">
             <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">Built-in Intelligence</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1">Smart Aggregator Features</h2>
-            <p className="text-brand-ivory/60 mt-2">Custom tools designed to guarantee safety, convenience, and value.</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-forest mt-1">Smart Aggregator Features</h2>
+            <p className="text-brand-muted mt-2">Custom tools designed to guarantee safety, convenience, and value.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -522,12 +527,12 @@ export const ExplorePage = () => {
               { icon: MapPin, title: "Live Ride Tracking", desc: "Real-time updates of bus arrival times, train delays, and driver geolocations shared directly with family members." },
               { icon: Leaf, title: "Sustainable Tourism", desc: "Promotes eco-friendly trains and offsets carbon metrics by promoting local craft cooperatives and zero-emission transit." }
             ].map((f, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all flex flex-col gap-3">
-                <div className="w-10 h-10 rounded-xl bg-brand-teal/25 flex items-center justify-center text-brand-gold">
+              <div key={idx} className="p-6 rounded-2xl bg-white border border-brand-border hover:border-brand-orange/30 transition-all flex flex-col gap-3 shadow-premium hover:shadow-premium-hover">
+                <div className="w-10 h-10 rounded-xl bg-brand-orange/15 flex items-center justify-center text-brand-orange">
                   <f.icon className="w-5 h-5" />
                 </div>
-                <h3 className="font-extrabold text-lg text-white">{f.title}</h3>
-                <p className="text-sm text-brand-ivory/65 leading-relaxed">{f.desc}</p>
+                <h3 className="font-extrabold text-lg text-brand-forest">{f.title}</h3>
+                <p className="text-sm text-brand-muted leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -564,9 +569,9 @@ export const ExplorePage = () => {
           </div>
 
           <div className="relative rounded-3xl overflow-hidden border border-brand-teal/10 shadow-premium h-80 lg:h-96">
-            <img 
-              src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80" 
-              alt="Nature Sustainability Bridge" 
+            <SafeImage
+              src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80"
+              alt="Nature Sustainability Bridge"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-forest/80 via-brand-forest/20 to-transparent flex items-end p-6">

@@ -59,17 +59,17 @@ export const PassengerIdPage = () => {
         </div>
 
         {/* Smart ID Hologram Card Mock */}
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-md mx-auto w-full border border-[#F5A623]/30 bg-gradient-to-tr from-[#1D1614] via-[#4C1A10] to-[#231714] text-white group">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-md mx-auto w-full border border-brand-orange/30 bg-gradient-to-tr from-brand-soft-orange via-white to-brand-cream text-brand-forest group">
           {/* Decorative glows */}
-          <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-orange/20 rounded-full blur-2xl group-hover:bg-brand-gold/20 transition-all duration-500"></div>
+          <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-orange/10 rounded-full blur-2xl group-hover:bg-brand-gold/20 transition-all duration-500"></div>
           
           <div className="p-6 sm:p-8 flex flex-col gap-6 text-left relative z-10">
             
             {/* Logo and Pass ID */}
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] text-brand-gold font-extrabold uppercase tracking-widest leading-none">Smart Travel ID</span>
-                <p className="text-xs text-brand-ivory/50 mt-0.5">Ministry of Tourism Sandbox</p>
+                <span className="text-[10px] text-brand-secondary font-extrabold uppercase tracking-widest leading-none">Smart Travel ID</span>
+                <p className="text-xs text-brand-muted mt-0.5">Ministry of Tourism Sandbox</p>
               </div>
               <div className="text-right">
                 <span className="text-[10px] bg-brand-orange text-white px-2 py-0.5 rounded font-black tracking-widest">JAN PASS</span>
@@ -82,22 +82,22 @@ export const PassengerIdPage = () => {
               {/* Profile Details */}
               <div className="col-span-8 space-y-3.5 text-xs">
                 <div>
-                  <span className="text-[9px] text-brand-ivory/40 uppercase font-bold tracking-wide">Full Name</span>
-                  <p className="font-extrabold text-sm text-white mt-0.5">{user.name}</p>
+                  <span className="text-[9px] text-brand-muted uppercase font-bold tracking-wide">Full Name</span>
+                  <p className="font-extrabold text-sm text-brand-forest mt-0.5">{user.name}</p>
                 </div>
                 <div>
-                  <span className="text-[9px] text-brand-ivory/40 uppercase font-bold tracking-wide">Unique Passenger ID</span>
-                  <p className="font-mono text-xs font-bold text-brand-gold tracking-wider mt-0.5">{user.passengerId}</p>
+                  <span className="text-[9px] text-brand-muted uppercase font-bold tracking-wide">Unique Passenger ID</span>
+                  <p className="font-mono text-xs font-bold text-brand-orange tracking-wider mt-0.5">{user.passengerId}</p>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <span className="text-[9px] text-brand-ivory/40 uppercase font-bold tracking-wide">Age Group</span>
-                    <p className="font-bold text-white mt-0.5 text-[10px]">{user.ageGroup}</p>
+                    <span className="text-[9px] text-brand-muted uppercase font-bold tracking-wide">Age Group</span>
+                    <p className="font-bold text-brand-forest mt-0.5 text-[10px]">{user.ageGroup}</p>
                   </div>
                   <div>
-                    <span className="text-[9px] text-brand-ivory/40 uppercase font-bold tracking-wide font-bold">Preferences</span>
-                    <span className="bg-brand-teal/30 text-brand-gold text-[8px] font-black uppercase px-1.5 py-0.5 rounded block mt-0.5 text-center truncate">
+                    <span className="text-[9px] text-brand-muted uppercase font-bold tracking-wide font-bold">Preferences</span>
+                    <span className="bg-brand-orange/15 text-brand-secondary text-[8px] font-black uppercase px-1.5 py-0.5 rounded block mt-0.5 text-center truncate">
                       {user.travelPreferences.style}
                     </span>
                   </div>
@@ -106,7 +106,7 @@ export const PassengerIdPage = () => {
 
               {/* QR Code Validation */}
               <div className="col-span-4 flex justify-center">
-                <div className="bg-white p-2.5 rounded-xl border border-white/10 flex items-center justify-center shadow-inner">
+                <div className="bg-white p-2.5 rounded-xl border border-brand-border flex items-center justify-center shadow-inner">
                   <QrCode className="w-16 h-16 text-brand-forest" />
                 </div>
               </div>
@@ -114,16 +114,16 @@ export const PassengerIdPage = () => {
             </div>
 
             {/* Bottom info: emergency */}
-            <div className="border-t border-white/10 pt-4 grid grid-cols-2 gap-4 text-[10px] text-brand-ivory/70 font-semibold">
+            <div className="border-t border-brand-border pt-4 grid grid-cols-2 gap-4 text-[10px] text-brand-muted font-semibold">
               <div>
-                <span className="text-[8px] text-brand-ivory/40 uppercase font-bold">Emergency Contact</span>
-                <p className="text-white mt-0.5">{user.emergencyContact.name}</p>
-                <p className="text-brand-ivory/50">{user.emergencyContact.phone}</p>
+                <span className="text-[8px] text-brand-muted uppercase font-bold">Emergency Contact</span>
+                <p className="text-brand-forest mt-0.5">{user.emergencyContact.name}</p>
+                <p className="text-brand-muted">{user.emergencyContact.phone}</p>
               </div>
               <div>
-                <span className="text-[8px] text-brand-ivory/40 uppercase font-bold">Access Aids</span>
-                <p className="text-brand-gold mt-0.5">✓ Wheelchair Pre-mapped</p>
-                <p className="text-brand-gold">✓ Satvik Food Pref</p>
+                <span className="text-[8px] text-brand-muted uppercase font-bold">Access Aids</span>
+                <p className="text-brand-secondary mt-0.5">✓ Wheelchair Pre-mapped</p>
+                <p className="text-brand-secondary">✓ Satvik Food Pref</p>
               </div>
             </div>
 

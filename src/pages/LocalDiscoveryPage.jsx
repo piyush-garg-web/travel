@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTravel } from '../context/TravelContext';
 import { travelService } from '../services/travelService';
 import { SkeletonLoader } from '../components/SkeletonLoader';
-import { Heart, Star, MapPin, Compass, Store, HeartHandshake, CheckCircle } from 'lucide-react';
+import { SafeImage } from '../components/SafeImage';
+import { Heart, MapPin, Compass, CheckCircle } from 'lucide-react';
 
 export const LocalDiscoveryPage = () => {
   const { savedExperiences, toggleSaveExperience, addToast } = useTravel();
@@ -36,13 +37,13 @@ export const LocalDiscoveryPage = () => {
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-left relative overflow-hidden">
       
       {/* Heritage Bazaar / Market Backdrop */}
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-        <img 
-          src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80" 
-          alt="Jaipur Heritage Bazaar Backdrop" 
+      <div className="absolute inset-0 z-0 opacity-15 pointer-events-none">
+        <SafeImage
+          src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80"
+          alt="Jaipur Heritage Bazaar Backdrop"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0F0A09] via-transparent to-[#0F0A09]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-ivory via-transparent to-brand-ivory"></div>
       </div>
 
       <div className="relative z-10">
@@ -57,7 +58,7 @@ export const LocalDiscoveryPage = () => {
         </div>
 
         {/* Category Filter bar */}
-        <div className="bg-white/5 rounded-3xl p-5 border border-white/10 backdrop-blur-md shadow-premium mb-8 flex flex-wrap gap-2.5">
+        <div className="bg-white rounded-3xl p-5 border border-brand-border shadow-premium mb-8 flex flex-wrap gap-2.5">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -65,7 +66,7 @@ export const LocalDiscoveryPage = () => {
               className={`px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
                 selectedCat === cat 
                   ? 'bg-brand-orange text-white border-brand-orange' 
-                  : 'bg-white/5 text-white/70 border-white/5 hover:bg-brand-orange hover:text-white'
+                  : 'bg-brand-cream text-brand-forest border-brand-border hover:bg-brand-orange hover:text-white'
               }`}
             >
               {cat}
@@ -87,21 +88,21 @@ export const LocalDiscoveryPage = () => {
             {filteredExp.map((exp) => {
               const isSaved = savedExperiences.includes(exp.id);
               return (
-                <div key={exp.id} className="bg-[#1D1614]/65 rounded-3xl overflow-hidden border border-brand-gold/15 shadow-premium hover:shadow-premium-hover transition-all duration-300 flex flex-col justify-between group">
+                <div key={exp.id} className="bg-white rounded-3xl overflow-hidden border border-brand-border shadow-premium hover:shadow-premium-hover transition-all duration-300 flex flex-col justify-between group">
                   
                   {/* Image & Badges */}
                   <div className="relative h-48">
-                    <img src={exp.image} alt={exp.name} className="w-full h-full object-cover" />
+                    <SafeImage src={exp.image} alt={exp.name} className="w-full h-full object-cover" />
                     
                     {/* Category badge */}
-                    <span className="absolute top-4 left-4 bg-[#0F0A09]/90 backdrop-blur-md text-brand-gold text-[9px] uppercase font-extrabold px-2.5 py-1 rounded-lg">
+                    <span className="absolute top-4 left-4 bg-brand-forest/90 backdrop-blur-md text-white text-[9px] uppercase font-extrabold px-2.5 py-1 rounded-lg">
                       {exp.category}
                     </span>
 
                     {/* Heart wishlist */}
                     <button
                       onClick={() => toggleSaveExperience(exp.id)}
-                      className="absolute top-4 right-4 p-2 rounded-xl bg-[#0F0A09]/90 hover:bg-[#0F0A09] text-gray-400 hover:text-brand-orange shadow-md transition-all cursor-pointer"
+                      className="absolute top-4 right-4 p-2 rounded-xl bg-white hover:bg-brand-cream text-brand-muted hover:text-brand-orange shadow-md transition-all cursor-pointer border border-brand-border"
                     >
                       <Heart className={`w-4 h-4 ${isSaved ? 'text-brand-orange fill-brand-orange' : ''}`} />
                     </button>
@@ -122,8 +123,8 @@ export const LocalDiscoveryPage = () => {
                         <span className="text-xs text-brand-gold font-extrabold">★ {exp.rating}</span>
                       </div>
 
-                      <h3 className="font-black text-lg text-white leading-snug">{exp.name}</h3>
-                      <p className="text-white/60 text-xs leading-relaxed">{exp.description}</p>
+                      <h3 className="font-black text-lg text-brand-forest leading-snug">{exp.name}</h3>
+                      <p className="text-brand-muted text-xs leading-relaxed">{exp.description}</p>
                       
                       {/* Bullet Highlights */}
                       <div className="pt-2.5 space-y-1.5">
@@ -136,15 +137,15 @@ export const LocalDiscoveryPage = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-brand-teal/10 pt-4 mt-2">
+                    <div className="flex items-center justify-between border-t border-brand-border pt-4 mt-2">
                       <div>
-                        <span className="text-[10px] text-brand-forest/40 block">Est. Cost Range</span>
-                        <span className="text-base font-extrabold text-brand-gold">{exp.priceRange}</span>
+                        <span className="text-[10px] text-brand-muted block">Est. Cost Range</span>
+                        <span className="text-base font-extrabold text-brand-secondary">{exp.priceRange}</span>
                       </div>
 
                       <button
                         onClick={() => addToast(`Simulated booking details. Add to your next Planner draft!`, "info")}
-                        className="px-4.5 py-2.5 bg-[#FF6F00]/10 border border-[#FF6F00]/25 text-brand-gold rounded-xl font-bold text-xs hover:bg-brand-orange hover:text-white transition-colors cursor-pointer"
+                        className="px-4.5 py-2.5 bg-brand-soft-orange border border-brand-orange/25 text-brand-secondary rounded-xl font-bold text-xs hover:bg-brand-orange hover:text-white transition-colors cursor-pointer"
                       >
                         Explore Spot
                       </button>
@@ -158,10 +159,10 @@ export const LocalDiscoveryPage = () => {
         )}
 
         {/* Local Artisan Promotion Card */}
-        <div className="mt-12 bg-gradient-to-r from-[#1D1614] to-[#0F0A09] rounded-3xl p-6 md:p-8 text-brand-forest border border-brand-gold/15 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-12 bg-brand-cream rounded-3xl p-6 md:p-8 text-brand-forest border border-brand-border flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 max-w-xl">
-            <h4 className="font-extrabold text-lg text-white">Own a Local Travel Business?</h4>
-            <p className="text-xs text-brand-forest/60 leading-relaxed">
+            <h4 className="font-extrabold text-lg text-brand-forest">Own a Local Travel Business?</h4>
+            <p className="text-xs text-brand-muted leading-relaxed">
               Register your cottage industry, thali hotel, or tour guide group for free. JanYatri pre-screens local providers to list them directly into passenger routing paths.
             </p>
           </div>

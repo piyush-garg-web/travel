@@ -73,13 +73,13 @@ export const BookingSuccessPage = () => {
         <div className="bg-white rounded-3xl border border-brand-teal/5 shadow-premium overflow-hidden flex flex-col">
           
           {/* Ticket Top: Pass Header */}
-          <div className="bg-brand-forest text-brand-ivory p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10">
+          <div className="bg-brand-cream text-brand-forest p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-brand-border">
             <div>
-              <span className="text-[10px] text-brand-gold font-extrabold uppercase tracking-widest">Digital Boarding Pass</span>
-              <h2 className="text-xl font-bold text-white mt-0.5">{activeTrip.title}</h2>
-              <p className="text-[10px] text-brand-ivory/50 mt-0.5">Trip ID: {activeTrip.id}</p>
+              <span className="text-[10px] text-brand-secondary font-extrabold uppercase tracking-widest">Digital Boarding Pass</span>
+              <h2 className="text-xl font-bold text-brand-forest mt-0.5">{activeTrip.title}</h2>
+              <p className="text-[10px] text-brand-muted mt-0.5">Trip ID: {activeTrip.id}</p>
             </div>
-            <div className="bg-brand-orange text-white text-[10px] uppercase font-bold tracking-wider px-3.5 py-1.5 rounded-xl border border-white/10">
+            <div className="bg-brand-orange text-white text-[10px] uppercase font-bold tracking-wider px-3.5 py-1.5 rounded-xl border border-brand-orange/20">
               ✓ Paid & Verified
             </div>
           </div>

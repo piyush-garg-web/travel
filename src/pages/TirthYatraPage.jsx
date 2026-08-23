@@ -3,12 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { travelService } from '../services/travelService';
 import { SkeletonLoader } from '../components/SkeletonLoader';
+import { SafeImage } from '../components/SafeImage';
 import { 
-  Heart, 
-  MapPin, 
-  Calendar, 
-  Activity, 
-  ShieldCheck, 
   ArrowRight,
   Sparkles,
   HeartHandshake
@@ -60,13 +56,13 @@ export const TirthYatraPage = () => {
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-left relative overflow-hidden">
       
       {/* Holy Temple Backdrop */}
-      <div className="absolute inset-0 z-0 opacity-15 pointer-events-none">
-        <img 
-          src="https://images.unsplash.com/photo-1602631985686-2bb0f30109cd?auto=format&fit=crop&w=1600&q=80" 
-          alt="Temples Sunrise Backdrop" 
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+        <SafeImage
+          src="https://images.unsplash.com/photo-1602631985686-2bb0f30109cd?auto=format&fit=crop&w=1600&q=80"
+          alt="Temples Sunrise Backdrop"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0F0A09] via-transparent to-[#0F0A09]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-ivory via-transparent to-brand-ivory"></div>
       </div>
 
       <div className="relative z-10">
@@ -84,21 +80,21 @@ export const TirthYatraPage = () => {
           </div>
 
           {/* Senior Friendly Mode Switcher */}
-          <div className="bg-[#1D1614]/75 border border-brand-gold/15 backdrop-blur-md rounded-2xl p-4 shadow-sm flex items-center justify-between gap-6 w-full md:w-auto">
+          <div className="bg-white border border-brand-border backdrop-blur-md rounded-2xl p-4 shadow-sm flex items-center justify-between gap-6 w-full md:w-auto">
             <div className="flex items-center gap-3">
               <span className="text-2xl">👵🏽</span>
               <div>
                 <h4 className="font-extrabold text-xs text-brand-forest">Senior Citizen Assist</h4>
-                <p className="text-[10px] text-brand-forest/50">Highlighting packages with physical aid support</p>
+                <p className="text-[10px] text-brand-muted">Highlighting packages with physical aid support</p>
               </div>
             </div>
             <button
               onClick={() => setSeniorOnly(!seniorOnly)}
               className={`w-12 h-6.5 rounded-full p-1 transition-colors duration-300 cursor-pointer ${
-                seniorOnly ? 'bg-brand-orange' : 'bg-white/10 border border-white/5'
+                seniorOnly ? 'bg-brand-orange' : 'bg-brand-border border border-brand-border'
               }`}
             >
-              <div className={`bg-[#FFFDF0] w-4.5 h-4.5 rounded-full shadow-md transform duration-300 ${
+              <div className={`bg-white w-4.5 h-4.5 rounded-full shadow-md transform duration-300 ${
                 seniorOnly ? 'translate-x-5.5' : 'translate-x-0'
               }`}></div>
             </button>
@@ -106,7 +102,7 @@ export const TirthYatraPage = () => {
         </div>
 
         {/* Category selector panel */}
-        <div className="bg-white/5 rounded-3xl p-5 border border-white/10 backdrop-blur-md shadow-premium mb-8 flex flex-wrap gap-2.5">
+        <div className="bg-white rounded-3xl p-5 border border-brand-border shadow-premium mb-8 flex flex-wrap gap-2.5">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -114,7 +110,7 @@ export const TirthYatraPage = () => {
               className={`px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
                 selectedCat === cat 
                   ? 'bg-brand-orange text-white border-brand-orange' 
-                  : 'bg-white/5 text-white/70 border-white/5 hover:bg-brand-orange hover:text-white'
+                  : 'bg-brand-cream text-brand-forest border-brand-border hover:bg-brand-orange hover:text-white'
               }`}
             >
               {cat}
@@ -138,8 +134,8 @@ export const TirthYatraPage = () => {
                 
                 {/* Package Image placeholder */}
                 <div className="w-full sm:w-48 h-48 sm:h-auto rounded-2xl overflow-hidden flex-shrink-0 relative">
-                  <img src={pkg.image} alt={pkg.title} className="w-full h-full object-cover" />
-                  <div className="absolute top-3 left-3 bg-[#0F0A09]/90 backdrop-blur-md px-2 py-0.5 rounded text-[8px] uppercase tracking-wider font-extrabold text-brand-gold">
+                  <SafeImage src={pkg.image} alt={pkg.title} className="w-full h-full object-cover" />
+                  <div className="absolute top-3 left-3 bg-brand-forest/90 backdrop-blur-md px-2 py-0.5 rounded text-[8px] uppercase tracking-wider font-extrabold text-white">
                     {pkg.difficulty}
                   </div>
                 </div>
@@ -184,7 +180,7 @@ export const TirthYatraPage = () => {
 
                     <button
                       onClick={() => handlePlanYatra(pkg)}
-                      className="px-5 py-2.5 bg-brand-orange hover:bg-brand-orange/95 text-white rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                      className="px-5 py-2.5 bg-brand-orange hover:bg-brand-secondary text-white rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
                     >
                       <span>Select Yatra Plan</span>
                       <ArrowRight className="w-4 h-4" />

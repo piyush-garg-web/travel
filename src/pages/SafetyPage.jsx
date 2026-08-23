@@ -102,13 +102,13 @@ export const SafetyPage = () => {
           </div>
 
           {/* Right Block: Live Log warning dispatches */}
-          <div className="md:col-span-7 bg-[#1D1614]/75 border border-[#F5A623]/25 backdrop-blur-md text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 text-left">
+          <div className="md:col-span-7 bg-white border border-brand-border backdrop-blur-md text-brand-forest rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 text-left shadow-premium">
             <div>
-              <span className="text-[10px] text-brand-gold font-extrabold uppercase tracking-widest">Active Dispatch Log</span>
+              <span className="text-[10px] text-brand-secondary font-extrabold uppercase tracking-widest">Active Dispatch Log</span>
               
               {sosActive ? (
-                <div className="mt-4 space-y-3.5 text-xs text-brand-ivory/80">
-                  <p className="flex items-center gap-2 text-white font-bold">
+                <div className="mt-4 space-y-3.5 text-xs text-brand-muted">
+                  <p className="flex items-center gap-2 text-brand-forest font-bold">
                     <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
                     Alerting emergency contact Amit Kumar (+91 91234 56789)...
                   </p>
@@ -126,8 +126,8 @@ export const SafetyPage = () => {
                   </p>
                 </div>
               ) : (
-                <div className="mt-4 p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-brand-ivory/60 space-y-2">
-                  <p className="font-bold text-brand-ivory">🛡️ Safety Shields Armed:</p>
+                <div className="mt-4 p-4 rounded-2xl bg-brand-cream border border-brand-border text-xs text-brand-muted space-y-2">
+                  <p className="font-bold text-brand-forest">🛡️ Safety Shields Armed:</p>
                   <p>• Geofenced safety zones mapped out for {user.travelPreferences.defaultSource} → Dehradun.</p>
                   <p>• Emergency contacts pre-cleared: <strong>{user.emergencyContact.name} ({user.emergencyContact.relation})</strong>.</p>
                   <p>• Local highway clinic registers synchronized with itinerary dates.</p>
@@ -138,14 +138,14 @@ export const SafetyPage = () => {
             <div className="flex flex-wrap gap-3.5 mt-2">
               <button
                 onClick={handleShareLink}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-4 py-2 bg-brand-cream hover:bg-brand-soft-orange text-brand-forest rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Share2 className="w-3.5 h-3.5" /> Share Location Link
               </button>
               
               <button
                 onClick={() => addToast("Call dispatcher simulation initiated!", "info")}
-                className="px-4 py-2 bg-brand-orange hover:bg-brand-orange/95 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-4 py-2 bg-brand-orange hover:bg-brand-secondary text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <PhoneCall className="w-3.5 h-3.5" /> Call Police Helpline
               </button>

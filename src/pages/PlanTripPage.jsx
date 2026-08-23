@@ -76,10 +76,8 @@ export const PlanTripPage = () => {
     e.preventDefault();
     // Update global context
     updatePlanner(formData);
-    // Initialize recommended transportation, hotel, and default local options
-    initializeBookingDefaults(formData.source, formData.destination);
-    // Proceed to results comparisons
-    navigate('/results');
+    // Proceed to plan tier comparison
+    navigate('/compare');
   };
 
   // Render Step Content

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { TravelProvider } from './context/TravelContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { RequireAuth } from './components/RequireAuth';
 
 // Pages
 import { MarketingLandingPage } from './pages/MarketingLandingPage';
@@ -22,6 +23,7 @@ import { MyTripsPage } from './pages/MyTripsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { BookingSuccessPage } from './pages/BookingSuccessPage';
+import { PlanComparisonPage } from './pages/PlanComparisonPage';
 
 // Scroll to top on route change for seamless navigation
 const ScrollToTop = () => {
@@ -47,9 +49,10 @@ function AppContent() {
           <Route path="/" element={<MarketingLandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/explore" element={<ExplorePage />} />
-          <Route path="/plan-trip" element={<PlanTripPage />} />
-          <Route path="/results" element={<SearchResultsPage />} />
-          <Route path="/trip/:id" element={<SmartTripPage />} />
+          <Route path="/plan-trip" element={<RequireAuth><PlanTripPage /></RequireAuth>} />
+          <Route path="/compare" element={<RequireAuth><PlanComparisonPage /></RequireAuth>} />
+          <Route path="/results" element={<RequireAuth><SearchResultsPage /></RequireAuth>} />
+          <Route path="/trip/:id" element={<RequireAuth><SmartTripPage /></RequireAuth>} />
           <Route path="/short-trips" element={<ShortTripsPage />} />
           <Route path="/tirth-yatra" element={<TirthYatraPage />} />
           <Route path="/stays" element={<StaysPage />} />
@@ -69,12 +72,12 @@ function AppContent() {
               <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
                 <span className="text-6xl mb-4">🧭</span>
                 <h1 className="text-3xl font-extrabold text-brand-forest mb-2">Page Not Found</h1>
-                <p className="text-brand-forest/65 max-w-md mb-6">
+                <p className="text-brand-muted max-w-md mb-6">
                   We couldn't find the destination page you were looking for. Let's get you back on course.
                 </p>
                 <a 
                   href="/" 
-                  className="px-6 py-3 rounded-xl bg-brand-teal text-white font-bold hover:bg-brand-forest transition-all"
+                  className="px-6 py-3 rounded-xl bg-brand-orange text-white font-bold hover:bg-brand-secondary transition-all"
                 >
                   Return to Home
                 </a>

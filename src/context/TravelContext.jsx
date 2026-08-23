@@ -65,6 +65,9 @@ export const TravelProvider = ({ children }) => {
     tripType: 'Regular Trip' // Regular Trip, Short Trip, Tirth Yatra
   });
 
+  // Selected comparison plan tier (Affordable / Moderate / Premium)
+  const [selectedPlan, setSelectedPlan] = useState(planner.budget);
+
   // Active booking flow state
   const [bookingCart, setBookingCart] = useState({
     transport: null,
@@ -113,6 +116,11 @@ export const TravelProvider = ({ children }) => {
     setPlanner((prev) => ({ ...prev, ...updates }));
   };
 
+  const selectPlan = (plan) => {
+    setSelectedPlan(plan);
+    setPlanner((prev) => ({ ...prev, budget: plan }));
+  };
+
   // Handle stay saves
   const toggleSaveStay = (hotelId) => {
     if (savedStays.includes(hotelId)) {
@@ -135,19 +143,22 @@ export const TravelProvider = ({ children }) => {
     }
   };
 
+  // Plan tier multipliers used for cost estimation
+  const planMultiplier = selectedPlan === 'Premium' ? 1.65 : selectedPlan === 'Affordable' ? 0.75 : 1.0;
+
   // Set selected transport or hotel in booking cart
   const setBookingItem = (type, item) => {
     setBookingCart((prev) => {
       const updated = { ...prev, [type]: item };
-      
+
       // Calculate costs
-      const transCost = updated.transport ? (updated.transport.price * (planner.travellers || 1)) : 0;
-      const stayCost = updated.hotel ? (updated.hotel.pricePerNight * 3) : 0; // Assume 3 nights
-      const localCost = type === 'localTravel' ? item.price : (updated.localTravel ? updated.localTravel.price : 500); // Mock flat local transport
-      const actCost = updated.activities.reduce((sum, a) => sum + (a.cost || 0), 0);
-      
+      const transCost = updated.transport ? Math.round(updated.transport.price * (planner.travellers || 1) * (selectedPlan === 'Premium' && updated.transport.type === 'Cab' ? 1.2 : planMultiplier)) : 0;
+      const stayCost = updated.hotel ? Math.round(updated.hotel.pricePerNight * 3 * planMultiplier) : 0; // Assume 3 nights
+      const localCost = type === 'localTravel' ? Math.round(item.price * planMultiplier) : (updated.localTravel ? Math.round(updated.localTravel.price * planMultiplier) : Math.round(500 * planMultiplier)); // Mock flat local transport
+      const actCost = Math.round(updated.activities.reduce((sum, a) => sum + (a.cost || 0), 0) * planMultiplier);
+
       const subTotal = transCost + stayCost + localCost + actCost;
-      
+
       updated.costBreakdown = {
         transport: transCost,
         hotel: stayCost,
@@ -156,7 +167,7 @@ export const TravelProvider = ({ children }) => {
         tax: Math.round(subTotal * 0.05), // 5% GST
         total: subTotal + Math.round(subTotal * 0.05)
       };
-      
+
       return updated;
     });
   };
@@ -194,18 +205,20 @@ export const TravelProvider = ({ children }) => {
       }
     });
 
-    // Compute initial total
+    // Compute initial total with plan multiplier
     setBookingCart((prev) => {
-      const transCost = prev.transport ? (prev.transport.price * planner.travellers) : 1300;
-      const stayCost = prev.hotel ? (prev.hotel.pricePerNight * 3) : 8400;
-      const sub = transCost + stayCost + 600 + 550;
+      const transCost = prev.transport ? Math.round(prev.transport.price * planner.travellers * (selectedPlan === 'Premium' && prev.transport.type === 'Cab' ? 1.2 : planMultiplier)) : Math.round(1300 * planMultiplier);
+      const stayCost = prev.hotel ? Math.round(prev.hotel.pricePerNight * 3 * planMultiplier) : Math.round(8400 * planMultiplier);
+      const localCost = Math.round(600 * planMultiplier);
+      const activitiesCost = Math.round(550 * planMultiplier);
+      const sub = transCost + stayCost + localCost + activitiesCost;
       return {
         ...prev,
         costBreakdown: {
           transport: transCost,
           hotel: stayCost,
-          localTravel: 600,
-          activities: 550,
+          localTravel: localCost,
+          activities: activitiesCost,
           tax: Math.round(sub * 0.05),
           total: sub + Math.round(sub * 0.05)
         }
@@ -304,6 +317,9 @@ export const TravelProvider = ({ children }) => {
         toggleSaveExperience,
         planner,
         updatePlanner,
+        selectedPlan,
+        setSelectedPlan,
+        selectPlan,
         bookingCart,
         setBookingItem,
         initializeBookingDefaults,

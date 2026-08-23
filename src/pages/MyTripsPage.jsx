@@ -3,17 +3,12 @@ import { Link } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { travelService } from '../services/travelService';
 import { SkeletonLoader } from '../components/SkeletonLoader';
+import { SafeImage } from '../components/SafeImage';
 import { 
-  Briefcase, 
-  Calendar, 
-  MapPin, 
   Bus, 
-  Train, 
   Hotel, 
-  CheckCircle,
   ArrowRight,
-  Heart,
-  Store
+  Layers
 } from 'lucide-react';
 
 export const MyTripsPage = () => {
@@ -111,6 +106,11 @@ export const MyTripsPage = () => {
                       <span className="bg-brand-teal/10 text-brand-teal text-[9px] uppercase font-extrabold px-2 py-0.5 rounded border border-brand-teal/5">
                         {trip.travelStyle}
                       </span>
+                      {trip.budgetLevel && (
+                        <span className="inline-flex items-center gap-1 bg-brand-soft-orange text-brand-orange text-[9px] uppercase font-extrabold px-2 py-0.5 rounded border border-brand-orange/20">
+                          <Layers className="w-3 h-3" /> {trip.budgetLevel}
+                        </span>
+                      )}
                       <span className="bg-brand-green/10 text-brand-green text-[9px] uppercase font-bold px-2 py-0.5 rounded">
                         🟢 Upcoming Booked
                       </span>
@@ -166,6 +166,11 @@ export const MyTripsPage = () => {
                       <span className="bg-brand-teal/10 text-brand-teal text-[9px] uppercase font-extrabold px-2 py-0.5 rounded">
                         {trip.travelStyle}
                       </span>
+                      {trip.budgetLevel && (
+                        <span className="inline-flex items-center gap-1 bg-brand-soft-orange text-brand-orange text-[9px] uppercase font-extrabold px-2 py-0.5 rounded border border-brand-orange/20">
+                          <Layers className="w-3 h-3" /> {trip.budgetLevel}
+                        </span>
+                      )}
                       <span className="bg-gray-100 text-gray-600 text-[9px] uppercase font-bold px-2 py-0.5 rounded">
                         ✓ Archival Completed
                       </span>
@@ -214,7 +219,7 @@ export const MyTripsPage = () => {
                 {stDetail.map((hotel) => (
                   <div key={hotel.id} className="bg-white p-5 rounded-2xl border border-brand-teal/5 shadow-sm flex gap-4">
                     <div className="h-20 w-20 rounded-xl overflow-hidden shrink-0">
-                      <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
+                      <SafeImage src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="space-y-1">
                       <span className="text-[9px] text-brand-orange uppercase font-extrabold tracking-wider">{hotel.badge}</span>
@@ -229,7 +234,7 @@ export const MyTripsPage = () => {
                 {expDetail.map((exp) => (
                   <div key={exp.id} className="bg-white p-5 rounded-2xl border border-brand-teal/5 shadow-sm flex gap-4">
                     <div className="h-20 w-20 rounded-xl overflow-hidden shrink-0">
-                      <img src={exp.image} alt={exp.name} className="w-full h-full object-cover" />
+                      <SafeImage src={exp.image} alt={exp.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="space-y-1">
                       <span className="text-[9px] text-brand-teal uppercase font-extrabold tracking-wider">{exp.category}</span>

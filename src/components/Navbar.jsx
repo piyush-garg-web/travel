@@ -55,7 +55,7 @@ export const Navbar = () => {
   return (
     <>
       {/* Top Navbar for Desktop */}
-      <header className="sticky top-0 z-40 w-full transition-all duration-300 glass-effect border-b border-brand-teal/10">
+      <header className="sticky top-0 z-40 w-full transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-brand-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           
           {/* Logo */}
@@ -69,9 +69,9 @@ export const Navbar = () => {
             <div className="flex flex-col">
               <span className="font-sans font-extrabold text-xl tracking-tight leading-none flex items-center">
                 <span className="text-brand-orange">Jan</span>
-                <span className="text-brand-teal">Yatri</span>
+                <span className="text-brand-secondary">Yatri</span>
               </span>
-              <span className="text-[9px] font-sans tracking-widest uppercase font-semibold text-brand-forest/65">
+              <span className="text-[9px] font-sans tracking-widest uppercase font-semibold text-brand-muted">
                 Smart Travel
               </span>
             </div>
@@ -86,8 +86,8 @@ export const Navbar = () => {
                 className={({ isActive }) => `
                   px-4 py-2 rounded-xl text-sm font-semibold tracking-wide transition-all flex items-center gap-1.5
                   ${isActive 
-                    ? 'bg-brand-teal/8 text-brand-teal' 
-                    : 'text-brand-forest/75 hover:bg-brand-mint hover:text-brand-teal'}
+                    ? 'bg-brand-soft-orange text-brand-orange' 
+                    : 'text-brand-forest/75 hover:bg-brand-cream hover:text-brand-orange'}
                 `}
               >
                 <item.icon className="w-4 h-4" />
@@ -113,7 +113,7 @@ export const Navbar = () => {
             {/* Search Toggle */}
             <button 
               onClick={() => setGlobalSearchOpen(!globalSearchOpen)}
-              className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all cursor-pointer"
+              className="p-2.5 rounded-xl hover:bg-brand-cream text-brand-forest/80 hover:text-brand-orange transition-all cursor-pointer"
               title="Search travel"
             >
               <Search className="w-5 h-5" />
@@ -122,7 +122,7 @@ export const Navbar = () => {
             {/* Saved Wishlist Icon */}
             <Link 
               to="/profile" 
-              className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal relative transition-all hidden sm:block"
+              className="p-2.5 rounded-xl hover:bg-brand-cream text-brand-forest/80 hover:text-brand-orange relative transition-all hidden sm:block"
               title="Wishlist"
             >
               <Heart className="w-5 h-5" />
@@ -136,7 +136,7 @@ export const Navbar = () => {
             {/* My Trips */}
             <Link 
               to="/my-trips" 
-              className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all hidden md:flex items-center gap-1.5 font-semibold text-sm"
+              className="p-2.5 rounded-xl hover:bg-brand-cream text-brand-forest/80 hover:text-brand-orange transition-all hidden md:flex items-center gap-1.5 font-semibold text-sm"
             >
               <Briefcase className="w-5 h-5" />
               <span className="hidden lg:inline">My Trips</span>
@@ -147,7 +147,7 @@ export const Navbar = () => {
               <div className="flex items-center gap-2">
                 <Link 
                   to="/profile" 
-                  className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all flex items-center gap-1.5 border border-brand-teal/10 bg-brand-teal/5"
+                  className="p-2.5 rounded-xl hover:bg-brand-cream text-brand-forest/80 hover:text-brand-orange transition-all flex items-center gap-1.5 border border-brand-border bg-brand-ivory"
                 >
                   <User className="w-5 h-5" />
                   <span className="hidden sm:inline font-semibold text-sm">{user?.name || 'Profile'}</span>
@@ -162,7 +162,7 @@ export const Navbar = () => {
             ) : (
               <Link 
                 to="/login" 
-                className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/80 hover:text-brand-teal transition-all flex items-center gap-1.5 border border-brand-teal/10 bg-brand-teal/5"
+                className="p-2.5 rounded-xl hover:bg-brand-cream text-brand-forest/80 hover:text-brand-orange transition-all flex items-center gap-1.5 border border-brand-border bg-brand-ivory"
               >
                 <User className="w-5 h-5" />
                 <span className="hidden sm:inline font-semibold text-sm">Sign In</span>
@@ -172,7 +172,7 @@ export const Navbar = () => {
             {/* Desktop / Tablet Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl hover:bg-brand-mint text-brand-forest/85 lg:hidden cursor-pointer"
+              className="p-2.5 rounded-xl hover:bg-brand-cream text-brand-forest/85 lg:hidden cursor-pointer"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -182,19 +182,19 @@ export const Navbar = () => {
 
         {/* Global Search Bar Dropdown */}
         {globalSearchOpen && (
-          <div className="absolute top-full left-0 w-full bg-[#FFFDF8] border-b border-brand-teal/15 p-4 shadow-xl z-50">
+          <div className="absolute top-full left-0 w-full bg-white border-b border-brand-border p-4 shadow-xl z-50">
             <form onSubmit={handleSearchSubmit} className="max-w-2xl mx-auto flex gap-2">
               <input
                 type="text"
                 placeholder="Search destinations (e.g. Dehradun, Rishikesh), hotels, short trips, Yatras..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-brand-teal/20 focus:outline-none focus:ring-2 focus:ring-brand-teal bg-[#FFFDF8] text-brand-forest"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-brand-border focus:outline-none focus:ring-2 focus:ring-brand-orange bg-brand-ivory text-brand-forest"
                 autoFocus
               />
               <button 
                 type="submit" 
-                className="px-5 py-2.5 rounded-xl bg-brand-teal text-white hover:bg-brand-forest transition-all font-semibold"
+                className="px-5 py-2.5 rounded-xl bg-brand-orange text-white hover:bg-brand-secondary transition-all font-semibold"
               >
                 Search
               </button>
@@ -204,15 +204,15 @@ export const Navbar = () => {
 
         {/* Dropdown Mobile Navigation Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden w-full bg-[#FFFDF8] border-b border-brand-teal/10 px-4 py-4 flex flex-col gap-1.5 shadow-lg">
+          <div className="lg:hidden w-full bg-white border-b border-brand-border px-4 py-4 flex flex-col gap-1.5 shadow-lg">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+                className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3"
               >
-                <item.icon className="w-5 h-5 text-brand-teal" />
+                <item.icon className="w-5 h-5 text-brand-orange" />
                 {item.name}
               </Link>
             ))}
@@ -220,7 +220,7 @@ export const Navbar = () => {
             <Link
               to="/my-trips"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+              className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3"
             >
               <Briefcase className="w-5 h-5 text-brand-teal" />
               My Trips
@@ -228,7 +228,7 @@ export const Navbar = () => {
             <Link
               to="/passenger-id"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+              className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3"
             >
               <AlertCircle className="w-5 h-5 text-brand-teal" />
               Digital Passenger ID
@@ -239,7 +239,7 @@ export const Navbar = () => {
                 <Link
                   to="/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+                  className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3"
                 >
                   <User className="w-5 h-5 text-brand-teal" />
                   Profile ({user?.name || ''})
@@ -249,7 +249,7 @@ export const Navbar = () => {
                     setMobileMenuOpen(false);
                     handleLogoutClick();
                   }}
-                  className="w-full text-left px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-red-600 flex items-center gap-3 cursor-pointer"
+                  className="w-full text-left px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-red-600 flex items-center gap-3 cursor-pointer"
                 >
                   <User className="w-5 h-5 text-red-600" />
                   Logout
@@ -259,7 +259,7 @@ export const Navbar = () => {
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-3 rounded-xl hover:bg-brand-mint font-semibold text-brand-forest hover:text-brand-teal flex items-center gap-3"
+                className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3"
               >
                 <User className="w-5 h-5 text-brand-teal" />
                 Sign In
@@ -270,24 +270,24 @@ export const Navbar = () => {
       </header>
 
       {/* Floating Bottom Nav Bar for Mobile Screens */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-t border-brand-teal/10 py-2.5 px-6 flex items-center justify-between lg:hidden shadow-[0_-5px_15px_-5px_rgba(16,42,42,0.05)]">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-brand-border py-2.5 px-6 flex items-center justify-between lg:hidden shadow-[0_-5px_15px_-5px_rgba(42,33,28,0.05)]">
         <NavLink 
           to="/explore" 
-          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-teal'}`}
+          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-orange'}`}
         >
           <Home className="w-5 h-5" />
           <span>Home</span>
         </NavLink>
         <NavLink 
           to="/local" 
-          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-teal'}`}
+          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-orange'}`}
         >
           <Compass className="w-5 h-5" />
           <span>Explore</span>
         </NavLink>
         <NavLink 
           to="/plan-trip" 
-          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-teal'}`}
+          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-orange'}`}
         >
           <div className="w-10 h-10 -mt-5 rounded-full bg-gradient-to-tr from-brand-orange to-brand-gold flex items-center justify-center text-white shadow-md shadow-brand-orange/30">
             <Calendar className="w-5 h-5" />
@@ -296,14 +296,14 @@ export const Navbar = () => {
         </NavLink>
         <NavLink 
           to="/my-trips" 
-          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-teal'}`}
+          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-orange'}`}
         >
           <Briefcase className="w-5 h-5" />
           <span>Trips</span>
         </NavLink>
         <NavLink 
           to="/profile" 
-          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-teal'}`}
+          className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-orange'}`}
         >
           <User className="w-5 h-5" />
           <span>Profile</span>

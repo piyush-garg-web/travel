@@ -3,23 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { travelService } from '../services/travelService';
 import { SkeletonLoader } from '../components/SkeletonLoader';
+import { SafeImage } from '../components/SafeImage';
 import { 
   Bus, 
   Train, 
   Car, 
   ArrowRight, 
-  SlidersHorizontal, 
-  ChevronDown, 
-  Check, 
   ShieldCheck, 
-  Star,
-  Info,
-  BadgeAlert,
-  Leaf
+  Leaf,
+  Layers
 } from 'lucide-react';
 
 export const SearchResultsPage = () => {
-  const { planner, bookingCart, setBookingItem, executeBooking, addToast } = useTravel();
+  const { planner, bookingCart, setBookingItem, executeBooking, addToast, selectedPlan } = useTravel();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -39,10 +35,6 @@ export const SearchResultsPage = () => {
         
         setTransports(transData);
         setAvailableHotels(hotelData);
-
-        // Pre-fill selection IDs from booking cart defaults
-        if (bookingCart.transport) setSelectedTransportId(bookingCart.transport.id);
-        if (bookingCart.hotel) setSelectedHotelId(bookingCart.hotel.id);
       } catch (err) {
         console.error("Error retrieving travel inventory", err);
       } finally {
@@ -51,6 +43,12 @@ export const SearchResultsPage = () => {
     };
     fetchData();
   }, [planner.source, planner.destination]);
+
+  // Sync selection IDs when booking cart defaults change
+  useEffect(() => {
+    if (bookingCart.transport) setSelectedTransportId(bookingCart.transport.id);
+    if (bookingCart.hotel) setSelectedHotelId(bookingCart.hotel.id);
+  }, [bookingCart.transport?.id, bookingCart.hotel?.id]);
 
   const handleSelectTransport = (option) => {
     setSelectedTransportId(option.id);
@@ -71,45 +69,78 @@ export const SearchResultsPage = () => {
     navigate(`/booking/success?bookingId=${bookedId}`);
   };
 
-  // Filtering & Sorting Logic
+  // Plan-aware sorting preferences
+  const planAwareSort = (a, b) => {
+    if (sortBy === 'Cheapest') return a.price - b.price;
+    if (sortBy === 'Fastest') {
+      const durationA = parseFloat(a.duration.replace('h', '.').replace('m', ''));
+      const durationB = parseFloat(b.duration.replace('h', '.').replace('m', ''));
+      return durationA - durationB;
+    }
+    if (selectedPlan === 'Affordable') return a.price - b.price;
+    if (selectedPlan === 'Premium') {
+      if (a.type === 'Cab' && b.type !== 'Cab') return -1;
+      if (b.type === 'Cab' && a.type !== 'Cab') return 1;
+      return b.price - a.price;
+    }
+    // Moderate / Recommended Default: Recommended goes first, then price ascending
+    if ((b.isRecommended ? 1 : 0) !== (a.isRecommended ? 1 : 0)) {
+      return (b.isRecommended ? 1 : 0) - (a.isRecommended ? 1 : 0);
+    }
+    return a.price - b.price;
+  };
+
   const filteredTransports = transports
     .filter(t => filterType === 'All' ? true : t.type === filterType)
-    .sort((a, b) => {
-      if (sortBy === 'Cheapest') return a.price - b.price;
-      if (sortBy === 'Fastest') {
-        const durationA = parseFloat(a.duration.replace('h', '.').replace('m', ''));
-        const durationB = parseFloat(b.duration.replace('h', '.').replace('m', ''));
-        return durationA - durationB;
-      }
-      // Recommended Default: Recommended goes first
-      return (b.isRecommended ? 1 : 0) - (a.isRecommended ? 1 : 0);
-    });
+    .sort(planAwareSort);
+
+  // Plan-aware hotel ordering
+  const sortedHotels = [...availableHotels].sort((a, b) => {
+    if (selectedPlan === 'Affordable') return a.pricePerNight - b.pricePerNight;
+    if (selectedPlan === 'Premium') return b.pricePerNight - a.pricePerNight;
+    return 0;
+  });
 
   // Recommended transport highlight
-  const topRecommended = transports.find(t => t.isRecommended) || transports[0];
+  const topRecommended = filteredTransports.find(t => t.isRecommended) || filteredTransports[0];
 
   return (
     <div className="min-h-screen bg-brand-ivory py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-left">
       
       {/* Route Header Banner */}
-      <div className="bg-brand-forest text-brand-ivory rounded-3xl p-6 md:p-8 mb-8 border border-brand-teal/20 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="bg-white text-brand-forest rounded-3xl p-6 md:p-8 mb-8 border border-brand-border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">Compared Routing Results</span>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white mt-1 flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">Compared Routing Results</span>
+            {selectedPlan && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-brand-soft-orange text-brand-orange text-[10px] font-extrabold uppercase tracking-wider border border-brand-orange/20">
+                <Layers className="w-3 h-3" /> {selectedPlan} Plan
+              </span>
+            )}
+          </div>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-brand-forest mt-1 flex items-center gap-2">
             <span>{planner.source}</span>
             <ArrowRight className="w-5 h-5 text-brand-gold shrink-0" />
             <span>{planner.destination}</span>
           </h1>
-          <p className="text-brand-ivory/60 text-xs sm:text-sm mt-1 font-semibold">
+          <p className="text-brand-muted text-xs sm:text-sm mt-1 font-semibold">
             📅 {planner.startDate} to {planner.endDate} &nbsp;|&nbsp; 👥 {planner.travellers} Travellers &nbsp;|&nbsp; 🛡️ {planner.style} Preference
           </p>
         </div>
-        <button 
-          onClick={() => navigate('/plan-trip')}
-          className="px-4 py-2 border border-white/20 hover:border-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
-        >
-          Modify Plan Config
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => navigate('/compare')}
+            className="px-4 py-2 bg-brand-soft-orange hover:bg-brand-orange hover:text-white text-brand-orange text-xs font-bold rounded-lg transition-colors cursor-pointer border border-brand-orange/20"
+          >
+            Compare Plans
+          </button>
+          <button 
+            onClick={() => navigate('/plan-trip')}
+            className="px-4 py-2 border border-brand-border hover:border-brand-orange text-brand-forest text-xs font-bold rounded-lg transition-colors cursor-pointer"
+          >
+            Modify Plan Config
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -125,12 +156,12 @@ export const SearchResultsPage = () => {
             
             {/* 1. Recommended Highlight Box */}
             {topRecommended && (
-              <div className="bg-gradient-to-br from-brand-teal/5 to-[#FFFDF8] border-2 border-brand-teal rounded-3xl p-6 shadow-sm relative overflow-hidden">
-                <span className="absolute top-0 right-0 bg-brand-teal text-white text-[10px] uppercase font-bold tracking-widest px-4 py-1.5 rounded-bl-2xl">
+              <div className="bg-gradient-to-br from-brand-soft-orange to-white border-2 border-brand-orange rounded-3xl p-6 shadow-sm relative overflow-hidden">
+                <span className="absolute top-0 right-0 bg-brand-orange text-white text-[10px] uppercase font-bold tracking-widest px-4 py-1.5 rounded-bl-2xl">
                   Best Recommendation
                 </span>
                 
-                <h3 className="text-xs uppercase tracking-widest text-brand-orange font-bold">Why recommended for you?</h3>
+                <h3 className="text-xs uppercase tracking-widest text-brand-secondary font-bold">Why recommended for you?</h3>
                 
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   <span className="bg-brand-mint text-brand-teal text-[10px] px-2 py-0.5 rounded font-extrabold">Best Value</span>
@@ -146,7 +177,7 @@ export const SearchResultsPage = () => {
 
                 <div className="mt-5 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
                   <div className="sm:col-span-8 flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-brand-teal/10 flex items-center justify-center text-brand-teal shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-brand-soft-orange flex items-center justify-center text-brand-orange shrink-0">
                       {topRecommended.type === 'Bus' ? <Bus className="w-6 h-6" /> : <Train className="w-6 h-6" />}
                     </div>
                     <div>
@@ -155,12 +186,12 @@ export const SearchResultsPage = () => {
                     </div>
                   </div>
                   <div className="sm:col-span-4 text-left sm:text-right">
-                    <span className="text-xs text-brand-forest/40">Price</span>
-                    <p className="text-xl font-black text-brand-teal">₹{topRecommended.price}/person</p>
+                    <span className="text-xs text-brand-muted">Price</span>
+                    <p className="text-xl font-black text-brand-orange">₹{topRecommended.price}/person</p>
                   </div>
                 </div>
 
-                <p className="text-xs text-brand-forest/65 mt-4 leading-relaxed italic bg-brand-teal/5 p-3 rounded-xl border border-brand-teal/10">
+                <p className="text-xs text-brand-muted mt-4 leading-relaxed italic bg-brand-cream p-3 rounded-xl border border-brand-border">
                   ⚠️ "Recommended because you prefer moderate-budget, accessibility-first trips. The Volvo AC Seater provides reclining orthopedic seats with direct rest stop intervals."
                 </p>
               </div>
@@ -168,19 +199,19 @@ export const SearchResultsPage = () => {
 
             {/* 2. Transit Mode Comparisons */}
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-teal/10 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-4">
                 <h3 className="font-extrabold text-lg text-brand-forest flex items-center gap-1.5">
                   Compare Transit Modes
                 </h3>
                 
                 {/* Controls */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  <div className="flex bg-brand-mint rounded-xl p-1 border border-brand-teal/5">
+                  <div className="flex bg-brand-cream rounded-xl p-1 border border-brand-border">
                     {['All', 'Bus', 'Train', 'Cab'].map((mode) => (
                       <button
                         key={mode}
                         onClick={() => setFilterType(mode)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all ${filterType === mode ? 'bg-brand-teal text-white shadow-sm' : 'text-brand-forest/70'}`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all ${filterType === mode ? 'bg-brand-orange text-white shadow-sm' : 'text-brand-forest/70'}`}
                       >
                         {mode}
                       </button>
@@ -190,7 +221,7 @@ export const SearchResultsPage = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="px-3 py-1.5 rounded-xl border border-brand-teal/20 bg-white text-xs font-bold text-brand-forest focus:outline-none"
+                    className="px-3 py-1.5 rounded-xl border border-brand-border bg-white text-xs font-bold text-brand-forest focus:outline-none"
                   >
                     <option value="Recommended">Recommended</option>
                     <option value="Cheapest">Cheapest</option>
@@ -209,8 +240,8 @@ export const SearchResultsPage = () => {
                       onClick={() => handleSelectTransport(option)}
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:shadow-sm ${
                         isSelected 
-                          ? 'border-brand-teal bg-brand-teal/5 shadow-sm' 
-                          : 'border-brand-teal/10 bg-white'
+                          ? 'border-brand-orange bg-brand-soft-orange shadow-sm' 
+                          : 'border-brand-border bg-white'
                       }`}
                     >
                       <div className="flex items-center gap-3.5">
@@ -223,7 +254,7 @@ export const SearchResultsPage = () => {
                           <div className="flex items-center gap-2">
                             <h4 className="font-extrabold text-brand-forest text-sm sm:text-base leading-tight">{option.name}</h4>
                             {option.isRecommended && (
-                              <span className="bg-brand-teal/10 text-brand-teal text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded">
+                              <span className="bg-brand-soft-orange text-brand-orange text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded">
                                 Best Value
                               </span>
                             )}
@@ -244,10 +275,10 @@ export const SearchResultsPage = () => {
                         </div>
                       </div>
 
-                      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center w-full sm:w-auto border-t sm:border-t-0 border-brand-teal/10 pt-3 sm:pt-0 gap-2">
+                      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center w-full sm:w-auto border-t sm:border-t-0 border-brand-border pt-3 sm:pt-0 gap-2">
                         <div className="text-left sm:text-right">
-                          <span className="text-[10px] text-brand-forest/40">Total Price</span>
-                          <p className="text-lg font-black text-brand-teal">
+                          <span className="text-[10px] text-brand-muted">Total Price</span>
+                          <p className="text-lg font-black text-brand-orange">
                             ₹{option.type === 'Cab' ? option.price : (option.price * planner.travellers)}
                           </p>
                           {option.type !== 'Cab' && (
@@ -258,8 +289,8 @@ export const SearchResultsPage = () => {
                           type="button"
                           className={`w-full sm:w-auto px-4 py-2 rounded-lg text-xs font-bold transition-all ${
                             isSelected 
-                              ? 'bg-brand-teal text-white' 
-                              : 'bg-brand-mint text-brand-teal border border-brand-teal/10 hover:bg-brand-teal hover:text-white'
+                              ? 'bg-brand-orange text-white' 
+                              : 'bg-brand-cream text-brand-orange border border-brand-border hover:bg-brand-orange hover:text-white'
                           }`}
                         >
                           {isSelected ? "Selected ✓" : "Select Option"}
@@ -273,15 +304,15 @@ export const SearchResultsPage = () => {
 
             {/* 3. Stays Accommodation Grid */}
             <div className="space-y-4">
-              <div className="border-b border-brand-teal/10 pb-4">
+              <div className="border-b border-brand-border pb-4">
                 <h3 className="font-extrabold text-lg text-brand-forest">
                   Stays in {planner.destination}
                 </h3>
-                <p className="text-xs text-brand-forest/50 mt-1">Recommended lodges matching your selected comfort parameters.</p>
+                <p className="text-xs text-brand-muted mt-1">Recommended lodges matching your selected comfort parameters.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {availableHotels.map((hotel) => {
+                {sortedHotels.map((hotel) => {
                   const isSelected = selectedHotelId === hotel.id;
                   return (
                     <div 
@@ -289,19 +320,19 @@ export const SearchResultsPage = () => {
                       onClick={() => handleSelectHotel(hotel)}
                       className={`rounded-2xl overflow-hidden border transition-all cursor-pointer flex flex-col justify-between ${
                         isSelected 
-                          ? 'border-brand-teal bg-brand-teal/5 shadow-sm' 
-                          : 'border-brand-teal/10 bg-white'
+                          ? 'border-brand-orange bg-brand-soft-orange shadow-sm' 
+                          : 'border-brand-border bg-white'
                       }`}
                     >
                       <div className="relative h-40">
-                        <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
+                        <SafeImage src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
                         {hotel.badge && (
-                          <span className="absolute top-3 left-3 bg-brand-forest text-brand-gold text-[9px] uppercase font-extrabold px-2.5 py-1 rounded-lg">
+                          <span className="absolute top-3 left-3 bg-brand-forest text-white text-[9px] uppercase font-extrabold px-2.5 py-1 rounded-lg">
                             {hotel.badge}
                           </span>
                         )}
                         {hotel.isSeniorFriendly && (
-                          <span className="absolute top-3 right-3 bg-brand-teal text-white text-[9px] uppercase font-extrabold px-2 py-0.5 rounded flex items-center gap-1 border border-white/10">
+                          <span className="absolute top-3 right-3 bg-brand-orange text-white text-[9px] uppercase font-extrabold px-2 py-0.5 rounded flex items-center gap-1">
                             🛡️ Senior-Friendly
                           </span>
                         )}
@@ -317,24 +348,24 @@ export const SearchResultsPage = () => {
                           
                           <div className="flex flex-wrap gap-1 mt-3">
                             {hotel.amenities.slice(0, 3).map((am) => (
-                              <span key={am} className="text-[9px] bg-brand-mint text-brand-teal px-2 py-0.5 rounded font-semibold">
+                              <span key={am} className="text-[9px] bg-brand-cream text-brand-secondary px-2 py-0.5 rounded font-semibold">
                                 {am}
                               </span>
                             ))}
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between border-t border-brand-teal/10 pt-3 mt-2">
+                        <div className="flex items-center justify-between border-t border-brand-border pt-3 mt-2">
                           <div>
-                            <span className="text-[10px] text-brand-forest/40">Nightly Price</span>
-                            <p className="text-base font-extrabold text-brand-teal">₹{hotel.pricePerNight}</p>
+                            <span className="text-[10px] text-brand-muted">Nightly Price</span>
+                            <p className="text-base font-extrabold text-brand-orange">₹{hotel.pricePerNight}</p>
                           </div>
                           <button
                             type="button"
                             className={`px-4.5 py-2 rounded-lg text-xs font-bold transition-all ${
                               isSelected 
-                                ? 'bg-brand-teal text-white' 
-                                : 'bg-brand-mint text-brand-teal hover:bg-brand-teal hover:text-white'
+                                ? 'bg-brand-orange text-white' 
+                                : 'bg-brand-cream text-brand-orange border border-brand-border hover:bg-brand-orange hover:text-white'
                             }`}
                           >
                             {isSelected ? "Selected ✓" : "Select Stay"}
@@ -351,24 +382,24 @@ export const SearchResultsPage = () => {
 
           {/* Checkout Summary Sidebar Right */}
           <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
-            <div className="bg-brand-forest text-white rounded-3xl p-6 border border-brand-teal/20 shadow-premium">
-              <h3 className="font-extrabold text-lg text-white">Your Smart Bill</h3>
-              <p className="text-brand-ivory/60 text-xs mt-0.5">Transparent cost breakdown. Zero hidden charges.</p>
+            <div className="bg-white text-brand-forest rounded-3xl p-6 border border-brand-border shadow-premium">
+              <h3 className="font-extrabold text-lg text-brand-forest">Your Smart Bill</h3>
+              <p className="text-brand-muted text-xs mt-0.5">Transparent cost breakdown. Zero hidden charges.</p>
               
-              <div className="h-px bg-white/10 my-4"></div>
+              <div className="h-px bg-brand-border my-4"></div>
 
-              <div className="space-y-3.5 text-xs text-brand-ivory/80">
+              <div className="space-y-3.5 text-xs text-brand-forest">
                 {/* Transport Selected */}
                 {bookingCart.transport ? (
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-bold text-white leading-none">Transport ({bookingCart.transport.type})</p>
-                      <span className="text-[10px] text-brand-ivory/50 mt-0.5 block">{bookingCart.transport.name}</span>
+                      <p className="font-bold text-brand-forest leading-none">Transport ({bookingCart.transport.type})</p>
+                      <span className="text-[10px] text-brand-muted mt-0.5 block">{bookingCart.transport.name}</span>
                     </div>
                     <span className="font-bold">₹{bookingCart.costBreakdown.transport}</span>
                   </div>
                 ) : (
-                  <div className="flex justify-between items-center text-brand-ivory/40">
+                  <div className="flex justify-between items-center text-brand-muted">
                     <span>No transport selected</span>
                     <span>₹0</span>
                   </div>
@@ -378,13 +409,13 @@ export const SearchResultsPage = () => {
                 {bookingCart.hotel ? (
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-bold text-white leading-none">Hotel Accommodation</p>
-                      <span className="text-[10px] text-brand-ivory/50 mt-0.5 block">{bookingCart.hotel.name} (3 Nights)</span>
+                      <p className="font-bold text-brand-forest leading-none">Hotel Accommodation</p>
+                      <span className="text-[10px] text-brand-muted mt-0.5 block">{bookingCart.hotel.name} (3 Nights)</span>
                     </div>
                     <span className="font-bold">₹{bookingCart.costBreakdown.hotel}</span>
                   </div>
                 ) : (
-                  <div className="flex justify-between items-center text-brand-ivory/40">
+                  <div className="flex justify-between items-center text-brand-muted">
                     <span>No stay selected</span>
                     <span>₹0</span>
                   </div>
@@ -394,13 +425,13 @@ export const SearchResultsPage = () => {
                 {bookingCart.localTravel ? (
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-bold text-white leading-none">Local Transit Pass</p>
-                      <span className="text-[10px] text-brand-ivory/50 mt-0.5 block">{bookingCart.localTravel.name}</span>
+                      <p className="font-bold text-brand-forest leading-none">Local Transit Pass</p>
+                      <span className="text-[10px] text-brand-muted mt-0.5 block">{bookingCart.localTravel.name}</span>
                     </div>
                     <span className="font-bold">₹{bookingCart.costBreakdown.localTravel}</span>
                   </div>
                 ) : (
-                  <div className="flex justify-between items-center text-brand-ivory/40">
+                  <div className="flex justify-between items-center text-brand-muted">
                     <span>No local transit</span>
                     <span>₹0</span>
                   </div>
@@ -412,35 +443,35 @@ export const SearchResultsPage = () => {
                   <span className="font-bold">₹{bookingCart.costBreakdown.activities}</span>
                 </div>
 
-                <div className="flex justify-between items-center text-brand-ivory/50">
+                <div className="flex justify-between items-center text-brand-muted">
                   <span>GST & Service Charge (5%)</span>
                   <span>₹{bookingCart.costBreakdown.tax}</span>
                 </div>
               </div>
 
-              <div className="h-px bg-white/10 my-4"></div>
+              <div className="h-px bg-brand-border my-4"></div>
 
               {/* Total Cost Display */}
               <div className="flex justify-between items-end mb-6">
                 <div>
-                  <span className="text-xs text-brand-ivory/55">Total Cost</span>
-                  <p className="text-[10px] text-brand-gold font-bold">Pure Veg & Access support included</p>
+                  <span className="text-xs text-brand-muted">Total Cost</span>
+                  <p className="text-[10px] text-brand-secondary font-bold">{selectedPlan} Plan estimate</p>
                 </div>
-                <p className="text-2xl font-black text-brand-gold">₹{bookingCart.costBreakdown.total}</p>
+                <p className="text-2xl font-black text-brand-orange">₹{bookingCart.costBreakdown.total}</p>
               </div>
 
               {/* Action Button */}
               <button
                 onClick={handleCheckout}
                 disabled={!bookingCart.transport || !bookingCart.hotel}
-                className="w-full py-4 rounded-xl bg-brand-orange hover:bg-brand-orange/95 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-1.5 transition-all shadow-md cursor-pointer"
+                className="w-full py-4 rounded-xl bg-brand-orange hover:bg-brand-secondary disabled:bg-brand-border disabled:text-brand-muted disabled:cursor-not-allowed text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-1.5 transition-all shadow-md cursor-pointer"
               >
                 <span>Continue to Booking</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
 
               {!bookingCart.transport || !bookingCart.hotel ? (
-                <p className="text-[10px] text-red-400 text-center mt-2.5">
+                <p className="text-[10px] text-red-500 text-center mt-2.5">
                   * Please select a transport option and a stay option to continue.
                 </p>
               ) : (

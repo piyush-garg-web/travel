@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTravel } from '../context/TravelContext';
 import { travelService } from '../services/travelService';
 import { SkeletonLoader } from '../components/SkeletonLoader';
+import { SafeImage } from '../components/SafeImage';
 import { Heart, Star, MapPin, SlidersHorizontal, ShieldCheck, HeartHandshake } from 'lucide-react';
 
 export const StaysPage = () => {
@@ -110,7 +111,7 @@ export const StaysPage = () => {
                 
                 {/* Image & Badge overlay */}
                 <div className="relative h-48">
-                  <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
+                  <SafeImage src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
                   
                   {hotel.badge && (
                     <span className="absolute top-4 left-4 bg-brand-forest text-brand-gold text-[9px] uppercase font-extrabold px-2.5 py-1 rounded-lg">

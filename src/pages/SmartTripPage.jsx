@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { MapExperience } from '../components/MapExperience';
 import { 
   ArrowLeft, 
   Share2, 
   Download, 
-  Edit3, 
   PlusCircle, 
   MapPin, 
-  Calendar, 
   Bus, 
-  Train, 
-  Hotel as HotelIcon, 
-  Coffee, 
-  Activity, 
-  ShieldCheck, 
   Trash2,
   X,
-  Map,
-  Compass
+  Layers
 } from 'lucide-react';
 
 export const SmartTripPage = () => {
   const { id } = useParams();
   const { trips, setTrips, addToast } = useTravel();
-  const navigate = useNavigate();
 
   const [activeTrip, setActiveTrip] = useState(null);
   const [activeDay, setActiveDay] = useState(1);
@@ -159,6 +150,11 @@ export const SmartTripPage = () => {
             <span className="bg-brand-mint text-brand-teal px-2 py-0.5 rounded text-xs border border-brand-teal/5 uppercase font-bold">
               {activeTrip.travelStyle}
             </span>
+            {activeTrip.budgetLevel && (
+              <span className="inline-flex items-center gap-1 bg-brand-soft-orange text-brand-orange px-2 py-0.5 rounded text-xs border border-brand-orange/20 uppercase font-bold">
+                <Layers className="w-3 h-3" /> {activeTrip.budgetLevel} Plan
+              </span>
+            )}
           </p>
         </div>
 
