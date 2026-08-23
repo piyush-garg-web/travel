@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import varanasiGangesBg from '../assets/varanasi-ganges.png';
 import { 
   ArrowRight, 
   MapPin, 
@@ -241,10 +242,9 @@ export const MarketingLandingPage = () => {
         
         {/* Full-screen atmospheric background Varanasi sunrise image */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1561361513-2d000a50f0db?auto=format&fit=crop&w=1920&q=80" 
-            alt="Cinematic Varanasi Ganges Heritage" 
-            className="w-full h-full object-cover object-center scale-105 brightness-[0.4] saturate-[0.8] contrast-[1.05]"
+          <div 
+            className="w-full h-full bg-cover bg-center bg-no-repeat scale-105 brightness-[0.4] saturate-[0.8] contrast-[1.05]"
+            style={{ backgroundImage: `url(${varanasiGangesBg})` }}
           />
           {/* Rich saffron-gold glow overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#070505] via-[#070505]/60 to-transparent"></div>

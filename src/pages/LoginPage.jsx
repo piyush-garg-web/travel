@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTravel } from '../context/TravelContext';
 import { mockUsersList } from '../data/users';
+import varanasiGangesBg from '../assets/varanasi-ganges.png';
 import { User, Mail, Lock, ArrowRight, ShieldCheck, Phone, MapPin } from 'lucide-react';
 import { authService } from '../services/authService';
 
@@ -89,10 +90,9 @@ export const LoginPage = () => {
       
       {/* Cinematic Backdrop Image */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1561361513-2d000a50f0db?auto=format&fit=crop&w=1920&q=80" 
-          alt="Cinematic Varanasi Sunrise" 
-          className="w-full h-full object-cover brightness-[0.25] saturate-[0.8]"
+        <div 
+          className="w-full h-full bg-cover bg-center bg-no-repeat brightness-[0.25] saturate-[0.8]"
+          style={{ backgroundImage: `url(${varanasiGangesBg})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0F0A09] via-[#0F0A09]/75 to-[#0F0A09]/90"></div>
       </div>

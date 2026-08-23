@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTravel } from '../context/TravelContext';
+import varanasiGangesBg from '../assets/varanasi-ganges.png';
 import { 
   ArrowRight, 
   MapPin, 
@@ -54,10 +55,9 @@ export const LandingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#102A2A]/40 via-[#0F766E]/20 to-[#102A2A]"></div>
         
         {/* Absolute Background Image representing Indian Landscapes */}
-        <img 
-          src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1920&q=80" 
-          alt="Ganges Rishikesh Background" 
-          className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-35"
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat mix-blend-overlay opacity-35"
+          style={{ backgroundImage: `url(${varanasiGangesBg})` }}
         />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
