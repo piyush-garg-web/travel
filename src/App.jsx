@@ -24,6 +24,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { BookingSuccessPage } from './pages/BookingSuccessPage';
 import { PlanComparisonPage } from './pages/PlanComparisonPage';
+import { OffersInfoPage, RecommendationPage, FeedbackPage, ImpactPage, TripSummaryPage, SecurityPrivacyPage } from './pages/JourneyInfoPages';
 
 // Scroll to top on route change for seamless navigation
 const ScrollToTop = () => {
@@ -58,7 +59,12 @@ function AppContent() {
           <Route path="/stays" element={<StaysPage />} />
           <Route path="/local" element={<LocalDiscoveryPage />} />
           <Route path="/passenger-id" element={<PassengerIdPage />} />
-          <Route path="/offers" element={<OffersPage />} />
+          <Route path="/offers" element={<OffersInfoPage />} />
+          <Route path="/ai-recommendation" element={<RecommendationPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/impact" element={<ImpactPage />} />
+          <Route path="/trip-summary" element={<TripSummaryPage />} />
+          <Route path="/security-privacy" element={<SecurityPrivacyPage />} />
           <Route path="/safety" element={<SafetyPage />} />
           <Route path="/my-trips" element={<MyTripsPage />} />
           <Route path="/profile" element={<ProfilePage />} />

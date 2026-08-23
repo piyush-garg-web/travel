@@ -17,7 +17,9 @@ import {
   Home,
   Map,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -25,6 +27,7 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [moreOpen, setMoreOpen] = useState(false);
   const navigate = useNavigate();
 
   const savedCount = savedStays.length + savedExperiences.length;
@@ -50,6 +53,15 @@ export const Navbar = () => {
     { name: 'Tirth Yatra', path: '/tirth-yatra', icon: MapPin },
     { name: 'Stays', path: '/stays', icon: StayIcon },
     { name: 'Local Discovery', path: '/local', icon: Map },
+  ];
+
+  const moreItems = [
+    { name: 'Offers & Incentives', path: '/offers' },
+    { name: 'AI Recommendation', path: '/ai-recommendation' },
+    { name: 'Feedback & Survey', path: '/feedback' },
+    { name: 'Impact & Future Vision', path: '/impact' },
+    { name: 'Trip Summary / Ticket', path: '/trip-summary' },
+    { name: 'Security & Privacy', path: '/security-privacy' },
   ];
 
   return (
@@ -94,6 +106,25 @@ export const Navbar = () => {
                 {item.name}
               </NavLink>
             ))}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMoreOpen((open) => !open)}
+                aria-expanded={moreOpen}
+                className="px-4 py-2 rounded-xl text-sm font-semibold tracking-wide transition-all flex items-center gap-1.5 text-brand-forest/75 hover:bg-brand-cream hover:text-brand-orange"
+              >
+                More <ChevronDown className={`h-4 w-4 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {moreOpen && (
+                <div className="absolute right-0 top-full mt-2 w-60 rounded-xl border border-slate-200 bg-white/90 p-2 shadow-xl backdrop-blur-md">
+                  {moreItems.map((item) => (
+                    <Link key={item.path} to={item.path} onClick={() => setMoreOpen(false)} className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-orange-50 hover:text-orange-500">
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Action Buttons Right Side */}
@@ -213,6 +244,13 @@ export const Navbar = () => {
                 className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3"
               >
                 <item.icon className="w-5 h-5 text-brand-orange" />
+                {item.name}
+              </Link>
+            ))}
+            <div className="h-px bg-brand-teal/10 my-2"></div>
+            {moreItems.map((item) => (
+              <Link key={item.path} to={item.path} onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-brand-cream font-semibold text-brand-forest hover:text-brand-orange flex items-center gap-3">
+                <Sparkles className="w-5 h-5 text-brand-orange" />
                 {item.name}
               </Link>
             ))}
