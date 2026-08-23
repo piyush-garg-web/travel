@@ -151,9 +151,9 @@ export const TravelProvider = ({ children }) => {
   };
 
   const packageBreakdowns = {
-    Affordable: { hotel: 2600, localTravel: 500, activities: 500 },
-    Moderate: { hotel: 4700, localTravel: 900, activities: 1300 },
-    Premium: { hotel: 6500, localTravel: 1300, activities: 5500 }
+    Affordable: { localTravel: 300, activities: 200 },
+    Moderate: { localTravel: 600, activities: 800 },
+    Premium: { localTravel: 1200, activities: 3500 }
   };
 
   // Set selected transport or hotel in booking cart
@@ -196,18 +196,24 @@ export const TravelProvider = ({ children }) => {
              t.isRecommended
     ) || transportOptions[0];
 
-    const recommendedHotel = hotels.find(
-      (h) => h.destinationId.toLowerCase() === toLoc.toLowerCase() && 
-             h.isSeniorFriendly === (planner.style === 'Senior Friendly')
-    ) || hotels[0];
+    const destHotels = hotels.filter(
+      (h) => h.destinationId.toLowerCase() === toLoc.toLowerCase()
+    );
+    const planLabel = selectedPlan || planner.budget;
+    const recommendedHotel = planLabel === 'Affordable'
+      ? destHotels.reduce((cheapest, h) => (!cheapest || h.pricePerNight < cheapest.pricePerNight) ? h : cheapest, null) || hotels[0]
+      : planLabel === 'Premium'
+        ? destHotels.reduce((priciest, h) => (!priciest || h.pricePerNight > priciest.pricePerNight) ? h : priciest, null) || hotels[0]
+        : destHotels.find((h) => h.isSeniorFriendly === (planner.style === 'Senior Friendly')) || destHotels[0] || hotels[0];
 
     const packageBreakdown = packageBreakdowns[selectedPlan] || packageBreakdowns.Moderate;
     const transportCost = getSelectedTransportTotal(recommendedTrans, planner.travellers);
+    const hotelCost = (recommendedHotel?.pricePerNight || 500) * 3;
     const defaultLocal = { name: "JanYatri Shared Local Travel Pass", price: packageBreakdown.localTravel };
     const includedExperiences = [
       { name: "Community Visits & Guided Trails", cost: packageBreakdown.activities }
     ];
-    const baseSubtotal = transportCost + packageBreakdown.hotel + packageBreakdown.localTravel + packageBreakdown.activities;
+    const baseSubtotal = transportCost + hotelCost + packageBreakdown.localTravel + packageBreakdown.activities;
     const gstAmount = Math.round(baseSubtotal * 0.18);
 
     setBookingCart({
@@ -217,7 +223,7 @@ export const TravelProvider = ({ children }) => {
       localTravel: defaultLocal,
       costBreakdown: {
         transport: transportCost,
-        hotel: packageBreakdown.hotel,
+        hotel: hotelCost,
         localTravel: packageBreakdown.localTravel,
         activities: packageBreakdown.activities,
         tax: gstAmount,

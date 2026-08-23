@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const SearchResultsPage = () => {
-  const { planner, bookingCart, setBookingItem, executeBooking, addToast, selectedPlan } = useTravel();
+  const { planner, bookingCart, setBookingItem, addToast, selectedPlan } = useTravel();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -63,10 +63,7 @@ export const SearchResultsPage = () => {
   };
 
   const handleCheckout = () => {
-    // Proceed to confirm booking
-    const simulatedId = `pass-ezy-${Math.floor(1000 + Math.random() * 9000)}`;
-    const bookedId = executeBooking(simulatedId);
-    navigate(`/booking/success?bookingId=${bookedId}`);
+    navigate('/traveller-details');
   };
 
   // Plan-aware sorting preferences

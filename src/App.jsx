@@ -24,6 +24,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { BookingSuccessPage } from './pages/BookingSuccessPage';
 import { PlanComparisonPage } from './pages/PlanComparisonPage';
+import { TravellerDetailsPage } from './pages/TravellerDetailsPage';
 import { OffersInfoPage, RecommendationPage, FeedbackPage, ImpactPage, TripSummaryPage, SecurityPrivacyPage } from './pages/JourneyInfoPages';
 
 // Scroll to top on route change for seamless navigation
@@ -53,6 +54,7 @@ function AppContent() {
           <Route path="/plan-trip" element={<RequireAuth><PlanTripPage /></RequireAuth>} />
           <Route path="/compare" element={<RequireAuth><PlanComparisonPage /></RequireAuth>} />
           <Route path="/results" element={<RequireAuth><SearchResultsPage /></RequireAuth>} />
+          <Route path="/traveller-details" element={<RequireAuth><TravellerDetailsPage /></RequireAuth>} />
           <Route path="/trip/:id" element={<RequireAuth><SmartTripPage /></RequireAuth>} />
           <Route path="/short-trips" element={<ShortTripsPage />} />
           <Route path="/tirth-yatra" element={<TirthYatraPage />} />
