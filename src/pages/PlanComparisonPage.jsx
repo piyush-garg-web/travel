@@ -177,9 +177,9 @@ export const PlanComparisonPage = () => {
                     {planTiers.map((tier) => (
                       <td key={tier.id} className="px-6 py-4">
                         {tier.features[feature.key] ? (
-                          <Check className="w-5 h-5 text-brand-green" />
+                          <Check className="w-5 h-5 text-[#16a34a]" />
                         ) : (
-                          <X className="w-5 h-5 text-brand-border" />
+                          <X className="w-5 h-5 text-[#ef4444]" />
                         )}
                       </td>
                     ))}
