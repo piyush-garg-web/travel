@@ -135,7 +135,7 @@ export const TravelProvider = ({ children }) => {
              h.isSeniorFriendly === (planner.style === 'Senior Friendly')
     ) || hotels[0];
 
-    const defaultLocal = { name: "EzYatra Eco-Electric Cab Pass", price: 600 };
+    const defaultLocal = { name: "JanYatri Eco-Electric Cab Pass", price: 600 };
 
     setBookingCart({
       transport: recommendedTrans,

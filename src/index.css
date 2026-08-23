@@ -1,30 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-orange: #FF6B35;
-  --color-brand-teal: #0F766E;
-  --color-brand-gold: #F4B942;
-  --color-brand-ivory: #FFFDF8;
-  --color-brand-forest: #102A2A;
-  --color-brand-mint: #F1F7F5;
-  --color-brand-green: #2E8B57;
+  --color-brand-orange: #FF6F00;
+  --color-brand-teal: #FF6F00;
+  --color-brand-gold: #F5A623;
+  --color-brand-ivory: #0F0A09;
+  --color-brand-forest: #FFFDF0;
+  --color-brand-mint: #1D1614;
+  --color-brand-green: #3F6B38;
   
   --font-sans: "Outfit", "Inter", sans-serif;
   
-  --shadow-premium: 0 10px 30px -10px rgba(16, 42, 42, 0.08);
-  --shadow-premium-hover: 0 20px 40px -15px rgba(16, 42, 42, 0.15);
-  --shadow-glass: 0 8px 32px 0 rgba(15, 118, 110, 0.08);
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  --shadow-premium-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.85);
+  --shadow-glass: 0 8px 32px 0 rgba(245, 166, 35, 0.08);
 }
 
 @utility glass-effect {
-  background: rgba(255, 253, 248, 0.7);
+  background: rgba(29, 22, 20, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(15, 118, 110, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.15);
 }
 
 @utility glass-dark-effect {
-  background: rgba(16, 42, 42, 0.8);
+  background: rgba(15, 10, 9, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -33,10 +33,13 @@
 @layer base {
   body {
     @apply bg-brand-ivory text-brand-forest antialiased selection:bg-brand-orange selection:text-white font-sans;
+    background-color: #0F0A09;
+    color: #FFFDF0;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply tracking-tight font-sans text-brand-forest font-bold;
+    color: #FFFDF0;
   }
 }
 
@@ -47,16 +50,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #FFFDF8;
+  background: #0F0A09;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0F766E;
+  background: #FF6F00;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF6B35;
+  background: #F5A623;
 }
 
 /* Animated Route Line drawing */
@@ -85,4 +88,82 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* --- cinematic dark luxury travel overrides --- */
+
+/* Adapt standard container white backgrounds to dark luxury glass cards */
+.bg-white {
+  background-color: rgba(29, 22, 20, 0.65) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-color: rgba(245, 166, 35, 0.12) !important;
+  color: #FFFDF0 !important;
+}
+
+.hover\:bg-white:hover {
+  background-color: rgba(29, 22, 20, 0.8) !important;
+}
+
+/* Override borders */
+.border-brand-teal\/5, .border-brand-teal\/10, .border-brand-teal\/15, .border-brand-teal\/20 {
+  border-color: rgba(245, 166, 35, 0.15) !important;
+}
+
+/* Text color contrast adaptations */
+.text-brand-forest {
+  color: #FFFDF0 !important;
+}
+
+.text-brand-forest\/65, .text-brand-forest\/70, .text-brand-forest\/75, .text-brand-forest\/80, .text-brand-forest\/90 {
+  color: rgba(255, 253, 240, 0.72) !important;
+}
+
+.text-brand-forest\/50, .text-brand-forest\/40 {
+  color: rgba(255, 253, 240, 0.48) !important;
+}
+
+/* Forms styling in dark theme */
+input[type="text"], input[type="number"], input[type="date"], input[type="email"], input[type="password"], select, textarea {
+  background-color: rgba(15, 10, 9, 0.7) !important;
+  border: 1px solid rgba(245, 166, 35, 0.22) !important;
+  color: #FFFDF0 !important;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+  border-color: #FF6F00 !important;
+  outline: none !important;
+}
+
+/* Specific background adaptations */
+.bg-brand-mint {
+  background-color: #1D1614 !important;
+  color: #FFFDF0 !important;
+}
+
+.hover\:bg-brand-mint:hover {
+  background-color: rgba(245, 166, 35, 0.15) !important;
+}
+
+.bg-brand-teal\/5 {
+  background-color: rgba(245, 166, 35, 0.05) !important;
+}
+
+.bg-brand-teal\/8 {
+  background-color: rgba(245, 166, 35, 0.08) !important;
+}
+
+/* Toast/Warning containers override */
+.bg-teal-50, .bg-blue-50, .bg-red-50, .bg-amber-50 {
+  background-color: #1D1614 !important;
+  border: 1px solid rgba(245, 166, 35, 0.25) !important;
+  color: #FFFDF0 !important;
+}
+
+.bg-amber-50 h4 {
+  color: #F5A623 !important;
+}
+
+.text-amber-800, .text-amber-800\/80 {
+  color: rgba(255, 253, 240, 0.72) !important;
 }

@@ -1,0 +1,171 @@
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useTravel } from '../context/TravelContext';
+import { mockUsersList } from '../data/users';
+import { User, Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react';
+
+export const LoginPage = () => {
+  const { setUser, addToast } = useTravel();
+  const navigate = useNavigate();
+
+  const [selectedUserIndex, setSelectedUserIndex] = useState(0);
+  const [email, setEmail] = useState(mockUsersList[0].email);
+  const [password, setPassword] = useState('••••••••••••');
+
+  const handleUserSelect = (index) => {
+    setSelectedUserIndex(index);
+    setEmail(mockUsersList[index].email);
+  };
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    const userToLogin = mockUsersList[selectedUserIndex];
+    
+    // Set the user in global travel context
+    setUser(userToLogin);
+    
+    addToast(`Welcome back, ${userToLogin.name}! Accessing your travel dashboard...`, 'success');
+    navigate('/explore');
+  };
+
+  return (
+    <div className="min-h-screen bg-brand-ivory flex items-center justify-center p-4 relative overflow-hidden font-sans">
+      
+      {/* Cinematic Backdrop Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1561361513-2d000a50f0db?auto=format&fit=crop&w=1920&q=80" 
+          alt="Cinematic Varanasi Sunrise" 
+          className="w-full h-full object-cover brightness-[0.25] saturate-[0.8]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0A09] via-[#0F0A09]/75 to-[#0F0A09]/90"></div>
+      </div>
+
+      {/* Background ambient light effects */}
+      <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] rounded-full bg-brand-orange/10 blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] rounded-full bg-brand-gold/10 blur-[120px] pointer-events-none"></div>
+
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff02_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
+
+      <div className="w-full max-w-md relative z-10">
+        
+        {/* Logo and Brand Title */}
+        <div className="flex flex-col items-center gap-3 mb-8 text-center">
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-orange to-brand-gold flex items-center justify-center shadow-lg shadow-brand-orange/20 overflow-hidden transform group-hover:scale-105 transition-all">
+              <svg className="w-5.5 h-5.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="font-extrabold text-2xl tracking-tight leading-none text-white">
+                Jan<span className="text-brand-gold">Yatri</span>
+              </span>
+              <span className="text-[10px] tracking-widest uppercase font-semibold text-brand-gold mt-0.5">
+                Smart India
+              </span>
+            </div>
+          </Link>
+        </div>
+
+        {/* Login Form Container (Glass card) */}
+        <div className="bg-[#1D1614]/65 border border-brand-gold/20 backdrop-blur-md rounded-3xl p-8 shadow-2xl flex flex-col gap-6">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-white tracking-wide">Sign In to Your Account</h2>
+            <p className="text-xs text-white/50 mt-1.5">Select a mock user profile to explore personalized travel planners.</p>
+          </div>
+
+          {/* Mock User Selector Cards */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] font-bold text-brand-gold uppercase tracking-wider text-left">Select Travel Profile</span>
+            <div className="grid grid-cols-2 gap-3">
+              {mockUsersList.map((mockUser, index) => (
+                <button
+                  key={mockUser.id}
+                  type="button"
+                  onClick={() => handleUserSelect(index)}
+                  className={`p-3.5 rounded-xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${
+                    selectedUserIndex === index
+                      ? 'bg-brand-orange/15 border-brand-orange text-white shadow-lg'
+                      : 'bg-white/5 border-white/5 text-white/70 hover:bg-white/10'
+                  }`}
+                >
+                  <span className="text-xs font-bold">{mockUser.name}</span>
+                  <span className="text-[10px] text-white/40">{mockUser.ageGroup}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
+            {/* Email Field */}
+            <div className="flex flex-col gap-1.5 text-left">
+              <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Email Address</label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                  <Mail className="w-4 h-4" />
+                </span>
+                <input
+                  type="email"
+                  value={email}
+                  readOnly
+                  className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange cursor-not-allowed opacity-80"
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="flex flex-col gap-1.5 text-left">
+              <label className="text-[10px] font-bold text-white/60 uppercase tracking-wider">Password</label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/40">
+                  <Lock className="w-4 h-4" />
+                </span>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-xs font-semibold focus:outline-none focus:border-brand-orange"
+                />
+              </div>
+            </div>
+
+            {/* Remember Me & Forgot Password (Mock) */}
+            <div className="flex items-center justify-between text-[11px] text-white/50 mt-1">
+              <label className="flex items-center gap-1.5 cursor-pointer">
+                <input type="checkbox" defaultChecked className="rounded border-white/10 accent-brand-orange bg-transparent w-3.5 h-3.5" />
+                <span>Remember me</span>
+              </label>
+              <a href="#" onClick={(e) => { e.preventDefault(); addToast("Password reset disabled in demo mode.", "info"); }} className="hover:text-brand-gold transition-colors font-medium">Forgot Password?</a>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="mt-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-gold hover:brightness-110 text-white font-bold text-sm tracking-wide shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 group transition-all cursor-pointer"
+            >
+              <span>Sign In</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </form>
+
+          {/* Secure Badge */}
+          <div className="flex items-center justify-center gap-1.5 text-[10px] text-white/40 border-t border-white/5 pt-4">
+            <ShieldCheck className="w-4 h-4 text-brand-gold" />
+            <span>Secure Passenger ID Auth Enabled</span>
+          </div>
+
+        </div>
+
+        {/* Back Link */}
+        <div className="text-center mt-6">
+          <Link to="/" className="text-xs text-white/50 hover:text-white transition-all font-medium">
+            ← Back to Landing Page
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+};

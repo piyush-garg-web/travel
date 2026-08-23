@@ -32,7 +32,7 @@ export const SafetyPage = () => {
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-forest">Your Safety Travels With You</h1>
           <p className="text-brand-forest/65 text-xs sm:text-sm max-w-2xl leading-relaxed">
-            EzYatra integrates emergency geofenced alerts, live companion coordinates, and paramedic ties directly into your passenger passport.
+            JanYatri integrates emergency geofenced alerts, live companion coordinates, and paramedic ties directly into your passenger passport.
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export const SafetyPage = () => {
           </div>
 
           {/* Right Block: Live Log warning dispatches */}
-          <div className="md:col-span-7 bg-brand-forest text-brand-ivory rounded-3xl p-6 sm:p-8 border border-brand-teal/20 flex flex-col justify-between gap-6 text-left">
+          <div className="md:col-span-7 bg-[#1D1614]/75 border border-[#F5A623]/25 backdrop-blur-md text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 text-left">
             <div>
               <span className="text-[10px] text-brand-gold font-extrabold uppercase tracking-widest">Active Dispatch Log</span>
               
@@ -140,7 +140,7 @@ export const SafetyPage = () => {
             {[
               { title: "National Tourism Helpline", number: "1363", desc: "24/7 Multi-lingual security support for tourists." },
               { title: "Railway Security Force (RPF)", number: "182 / 139", desc: "Direct coordinate dispatch during rail transit." },
-              { title: "EzYatra Medical Assist Hotline", number: "1800-EZY-SAFE", desc: "Dedicated access/paramedic scheduling helpline." }
+              { title: "JanYatri Medical Assist Hotline", number: "1800-JAN-SAFE", desc: "Dedicated access/paramedic scheduling helpline." }
             ].map((item, idx) => (
               <div key={idx} className="bg-white p-5 rounded-2xl border border-brand-teal/5 shadow-premium flex flex-col justify-between gap-3">
                 <div>

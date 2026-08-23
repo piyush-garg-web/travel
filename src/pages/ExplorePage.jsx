@@ -21,7 +21,7 @@ import { destinations } from '../data/destinations';
 import { shortTrips } from '../data/shortTrips';
 import { tirthYatraPackages } from '../data/tirthYatra';
 
-export const LandingPage = () => {
+export const ExplorePage = () => {
   const { planner, updatePlanner } = useTravel();
   const navigate = useNavigate();
 
@@ -51,12 +51,12 @@ export const LandingPage = () => {
       {/* Cinematic Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-brand-forest">
         {/* Dynamic backdrop gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#102A2A]/40 via-[#0F766E]/20 to-[#102A2A]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0F0A09]/40 via-[#FF6F00]/10 to-[#0F0A09]"></div>
         
         {/* Absolute Background Image representing Indian Landscapes */}
         <img 
-          src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1920&q=80" 
-          alt="Ganges Rishikesh Background" 
+          src="https://images.unsplash.com/photo-1561361513-2d000a50f0db?auto=format&fit=crop&w=1920&q=80" 
+          alt="Varanasi Ganges Background" 
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-35"
         />
 
@@ -110,7 +110,7 @@ export const LandingPage = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="lg:col-span-6 bg-[#FFFDF8] p-6 sm:p-8 rounded-3xl shadow-2xl border border-brand-teal/10 flex flex-col gap-6 text-left"
+            className="lg:col-span-6 bg-[#1D1614]/75 border border-brand-gold/15 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col gap-6 text-left"
           >
             <div>
               <h3 className="font-extrabold text-xl sm:text-2xl text-brand-forest">Start Your Smart Plan</h3>
@@ -146,7 +146,7 @@ export const LandingPage = () => {
                   <select
                     value={fromLoc}
                     onChange={(e) => setFromLoc(e.target.value)}
-                    className="p-3 rounded-xl border border-brand-teal/15 focus:outline-none focus:ring-2 focus:ring-brand-teal bg-[#FFFDF8] text-sm text-brand-forest font-semibold"
+                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
                   >
                     <option value="Delhi">Delhi</option>
                     <option value="Jaipur">Jaipur</option>
@@ -163,7 +163,7 @@ export const LandingPage = () => {
                   <select
                     value={toLoc}
                     onChange={(e) => setToLoc(e.target.value)}
-                    className="p-3 rounded-xl border border-brand-teal/15 focus:outline-none focus:ring-2 focus:ring-brand-teal bg-[#FFFDF8] text-sm text-brand-forest font-semibold"
+                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
                   >
                     <option value="Dehradun">Dehradun (Doon)</option>
                     <option value="Jaipur">Jaipur (Pink City)</option>
@@ -186,7 +186,7 @@ export const LandingPage = () => {
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="p-3 rounded-xl border border-brand-teal/15 focus:outline-none focus:ring-2 focus:ring-brand-teal bg-[#FFFDF8] text-sm text-brand-forest font-semibold"
+                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
                   />
                 </div>
 
@@ -200,7 +200,7 @@ export const LandingPage = () => {
                     max="10"
                     value={guests}
                     onChange={(e) => setGuests(e.target.value)}
-                    className="p-3 rounded-xl border border-brand-teal/15 focus:outline-none focus:ring-2 focus:ring-brand-teal bg-[#FFFDF8] text-sm text-brand-forest font-semibold"
+                    className="p-3 rounded-xl border border-[#F5A623]/25 focus:outline-none focus:ring-2 focus:ring-brand-orange bg-[#0F0A09]/60 text-sm text-white font-semibold"
                   />
                 </div>
               </div>

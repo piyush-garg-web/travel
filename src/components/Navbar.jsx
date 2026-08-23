@@ -39,7 +39,7 @@ export const Navbar = () => {
   };
 
   const navItems = [
-    { name: 'Explore', path: '/', icon: Compass },
+    { name: 'Explore', path: '/explore', icon: Compass },
     { name: 'Plan Trip', path: '/plan-trip', icon: Calendar },
     { name: 'Short Trips', path: '/short-trips', icon: Milestone },
     { name: 'Tirth Yatra', path: '/tirth-yatra', icon: MapPin },
@@ -54,7 +54,7 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/explore" className="flex items-center gap-2 group">
             <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-orange to-brand-gold flex items-center justify-center shadow-md shadow-brand-orange/20 overflow-hidden transform group-hover:scale-105 transition-all">
               <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round"/>
@@ -63,11 +63,11 @@ export const Navbar = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-sans font-extrabold text-xl tracking-tight leading-none flex items-center">
-                <span className="text-brand-orange">Ez</span>
-                <span className="text-brand-teal">Yatra</span>
+                <span className="text-brand-orange">Jan</span>
+                <span className="text-brand-teal">Yatri</span>
               </span>
               <span className="text-[9px] font-sans tracking-widest uppercase font-semibold text-brand-forest/65">
-                Smart India
+                Smart Travel
               </span>
             </div>
           </Link>
@@ -217,7 +217,7 @@ export const Navbar = () => {
       {/* Floating Bottom Nav Bar for Mobile Screens */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-t border-brand-teal/10 py-2.5 px-6 flex items-center justify-between lg:hidden shadow-[0_-5px_15px_-5px_rgba(16,42,42,0.05)]">
         <NavLink 
-          to="/" 
+          to="/explore" 
           className={({ isActive }) => `flex flex-col items-center gap-0.5 text-[10px] font-bold ${isActive ? 'text-brand-orange' : 'text-brand-forest/60 hover:text-brand-teal'}`}
         >
           <Home className="w-5 h-5" />

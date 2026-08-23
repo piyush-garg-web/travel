@@ -17,7 +17,7 @@ export const PassengerIdPage = () => {
   const { user, addToast } = useTravel();
 
   const handleDownload = () => {
-    addToast("💾 Smart ID downloaded to device storage as EZY-PASS.pkpass", "success");
+    addToast("💾 Smart ID downloaded to device storage as JAN-PASS.pkpass", "success");
   };
 
   const handleDelete = () => {
@@ -30,7 +30,7 @@ export const PassengerIdPage = () => {
         
         {/* Header */}
         <div className="text-center space-y-2">
-          <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">EzYatra Smart Travel Card</span>
+          <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">JanYatri Smart Travel Card</span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-forest">Your Digital Passenger ID</h1>
           <p className="text-brand-forest/65 text-xs sm:text-sm max-w-md mx-auto">
             A unified passenger identity linking physical transit preferences, emergency locks, and access needs. Scan at station checkpoints.
@@ -38,9 +38,9 @@ export const PassengerIdPage = () => {
         </div>
 
         {/* Smart ID Hologram Card Mock */}
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-md mx-auto w-full border border-brand-teal/20 bg-brand-forest text-brand-ivory group">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-md mx-auto w-full border border-[#F5A623]/30 bg-gradient-to-tr from-[#1D1614] via-[#4C1A10] to-[#231714] text-white group">
           {/* Decorative glows */}
-          <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-teal/20 rounded-full blur-2xl group-hover:bg-brand-orange/20 transition-all duration-500"></div>
+          <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-orange/20 rounded-full blur-2xl group-hover:bg-brand-gold/20 transition-all duration-500"></div>
           
           <div className="p-6 sm:p-8 flex flex-col gap-6 text-left relative z-10">
             
@@ -51,7 +51,7 @@ export const PassengerIdPage = () => {
                 <p className="text-xs text-brand-ivory/50 mt-0.5">Ministry of Tourism Sandbox</p>
               </div>
               <div className="text-right">
-                <span className="text-[10px] bg-brand-orange text-white px-2 py-0.5 rounded font-black tracking-widest">EZY PASS</span>
+                <span className="text-[10px] bg-brand-orange text-white px-2 py-0.5 rounded font-black tracking-widest">JAN PASS</span>
               </div>
             </div>
 
@@ -115,7 +115,7 @@ export const PassengerIdPage = () => {
           <div>
             <h4 className="font-extrabold text-amber-900">Prototype Sandbox Warning</h4>
             <p className="mt-0.5 text-amber-800/80 leading-relaxed">
-              EzYatra Passenger ID is an aggregation mockup. <strong>No real Aadhaar details, biometric records, or official credentials are collected here.</strong> It is structured only to demonstrate how profiles can automate ticket checkpoints.
+              JanYatri Passenger ID is an aggregation mockup. <strong>No real Aadhaar details, biometric records, or official credentials are collected here.</strong> It is structured only to demonstrate how profiles can automate ticket checkpoints.
             </p>
           </div>
         </div>

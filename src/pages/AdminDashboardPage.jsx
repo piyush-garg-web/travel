@@ -61,7 +61,7 @@ export const AdminDashboardPage = () => {
       {/* Header */}
       <div className="mb-10">
         <span className="text-brand-orange font-bold text-xs uppercase tracking-widest flex items-center gap-1">
-          <Settings className="w-4.5 h-4.5 text-brand-teal" /> EzYatra Administrator
+          <Settings className="w-4.5 h-4.5 text-brand-teal" /> JanYatri Administrator
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-forest mt-1">Admin Dashboard</h1>
         <p className="text-brand-forest/65 mt-2 max-w-xl leading-relaxed">

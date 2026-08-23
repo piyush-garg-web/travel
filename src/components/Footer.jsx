@@ -12,16 +12,16 @@ export const Footer = () => {
           
           {/* Brand Info */}
           <div className="col-span-2 flex flex-col gap-4">
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/explore" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-orange to-brand-gold flex items-center justify-center text-white font-bold">
-                E
+                J
               </div>
               <span className="font-sans font-extrabold text-lg text-white">
-                Ez<span className="text-brand-gold">Yatra</span>
+                Jan<span className="text-brand-gold">Yatri</span>
               </span>
             </Link>
             <p className="text-sm text-brand-ivory/60 max-w-sm">
-              Your Journey. One Smart Plan. Combine transport, stays, local experiences, and Tirth Yatra planning into a unified, stress-free travel solution.
+              Your Journey. Planned Smarter. Combine transport, stays, local experiences, and Tirth Yatra planning into a unified, stress-free travel solution.
             </p>
             <div className="flex items-center gap-3 mt-2 text-brand-ivory/70">
               <a href="#" className="p-2 rounded-lg bg-white/5 hover:bg-brand-orange hover:text-white transition-all" aria-label="Facebook">
@@ -74,7 +74,7 @@ export const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-ivory/50">
-          <p>© {new Date().getFullYear()} EzYatra Tech Pvt Ltd. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} JanYatri Tech Pvt Ltd. All rights reserved.</p>
           <p className="flex items-center gap-1">
             Built for smarter journeys across India with <Heart className="w-3.5 h-3.5 text-brand-orange fill-brand-orange" />
           </p>
